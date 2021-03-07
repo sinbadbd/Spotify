@@ -32,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window.makeKeyAndVisible()
         self.window = window
+        print(AuthManager.shared.signInURL?.absoluteURL)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

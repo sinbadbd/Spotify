@@ -29,6 +29,7 @@
 		1D494C3E25F4ABCB00D79971 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C3D25F4ABCB00D79971 /* Artist.swift */; };
 		1D494C4125F4ABE400D79971 /* userProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4025F4ABE400D79971 /* userProfile.swift */; };
 		1D494C4525F4AC9100D79971 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4425F4AC9100D79971 /* TabBarViewController.swift */; };
+		1D494C4825F4D93D00D79971 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4725F4D93D00D79971 /* UIView+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		1D494C3D25F4ABCB00D79971 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
 		1D494C4025F4ABE400D79971 /* userProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userProfile.swift; sourceTree = "<group>"; };
 		1D494C4425F4AC9100D79971 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		1D494C4725F4D93D00D79971 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +90,7 @@
 		1D494BE925F4A66C00D79971 /* Spotify */ = {
 			isa = PBXGroup;
 			children = (
-				1D494C3525F4ABA000D79971 /* New Group */,
+				1D494C3525F4ABA000D79971 /* Supporting-File */,
 				1D494C0725F4A6FB00D79971 /* Resources */,
 				1D494C0625F4A6EC00D79971 /* Managers */,
 				1D494C0525F4A6DD00D79971 /* Controllers */,
@@ -180,11 +182,12 @@
 			path = other;
 			sourceTree = "<group>";
 		};
-		1D494C3525F4ABA000D79971 /* New Group */ = {
+		1D494C3525F4ABA000D79971 /* Supporting-File */ = {
 			isa = PBXGroup;
 			children = (
+				1D494C4725F4D93D00D79971 /* UIView+Extension.swift */,
 			);
-			path = "New Group";
+			path = "Supporting-File";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,6 +274,7 @@
 				1D494C2425F4AB2C00D79971 /* ProfileViewController.swift in Sources */,
 				1D494C4125F4ABE400D79971 /* userProfile.swift in Sources */,
 				1D494C2A25F4AB5600D79971 /* SerachResultsViewController.swift in Sources */,
+				1D494C4825F4D93D00D79971 /* UIView+Extension.swift in Sources */,
 				1D494C3E25F4ABCB00D79971 /* Artist.swift in Sources */,
 				1D494C1A25F4AB0700D79971 /* AuthViewController.swift in Sources */,
 				1D494C2725F4AB3F00D79971 /* PlayListViewController.swift in Sources */,
