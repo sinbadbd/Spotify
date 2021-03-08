@@ -56,5 +56,12 @@ extension AuthViewController: WKNavigationDelegate{
         }
         
         print("code:\(code)")
+        
+        AuthManager.shared.exchangeCodeForToken(code: code) { success in
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+                self.completionHandle?(success)
+            }
+        }
     }
 }
