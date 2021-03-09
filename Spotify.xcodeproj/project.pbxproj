@@ -30,6 +30,7 @@
 		1D494C4125F4ABE400D79971 /* userProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4025F4ABE400D79971 /* userProfile.swift */; };
 		1D494C4525F4AC9100D79971 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4425F4AC9100D79971 /* TabBarViewController.swift */; };
 		1D494C4825F4D93D00D79971 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4725F4D93D00D79971 /* UIView+Extension.swift */; };
+		1D494CC925F74B5A00D79971 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494CC825F74B5A00D79971 /* AuthResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		1D494C4025F4ABE400D79971 /* userProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userProfile.swift; sourceTree = "<group>"; };
 		1D494C4425F4AC9100D79971 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		1D494C4725F4D93D00D79971 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		1D494CC825F74B5A00D79971 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 				1D494C3A25F4ABC100D79971 /* AudioTrack.swift */,
 				1D494C3D25F4ABCB00D79971 /* Artist.swift */,
 				1D494C4025F4ABE400D79971 /* userProfile.swift */,
+				1D494CC825F74B5A00D79971 /* AuthResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 				1D494C3025F4AB8500D79971 /* ApiCaller.swift in Sources */,
 				1D494C2125F4AB1E00D79971 /* SettingsViewController.swift in Sources */,
 				1D494BEB25F4A66C00D79971 /* AppDelegate.swift in Sources */,
+				1D494CC925F74B5A00D79971 /* AuthResponse.swift in Sources */,
 				1D494C4525F4AC9100D79971 /* TabBarViewController.swift in Sources */,
 				1D494C3B25F4ABC100D79971 /* AudioTrack.swift in Sources */,
 				1D494BF525F4A66C00D79971 /* Spotify.xcdatamodeld in Sources */,
