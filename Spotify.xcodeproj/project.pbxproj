@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -27,10 +27,14 @@
 		1D494C3725F4ABB100D79971 /* PlayList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C3625F4ABB100D79971 /* PlayList.swift */; };
 		1D494C3B25F4ABC100D79971 /* AudioTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C3A25F4ABC100D79971 /* AudioTrack.swift */; };
 		1D494C3E25F4ABCB00D79971 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C3D25F4ABCB00D79971 /* Artist.swift */; };
-		1D494C4125F4ABE400D79971 /* userProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4025F4ABE400D79971 /* userProfile.swift */; };
+		1D494C4125F4ABE400D79971 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4025F4ABE400D79971 /* UserProfile.swift */; };
 		1D494C4525F4AC9100D79971 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4425F4AC9100D79971 /* TabBarViewController.swift */; };
 		1D494C4825F4D93D00D79971 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494C4725F4D93D00D79971 /* UIView+Extension.swift */; };
 		1D494CC925F74B5A00D79971 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494CC825F74B5A00D79971 /* AuthResponse.swift */; };
+		1D494D4925F8D72900D79971 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494D4825F8D72900D79971 /* SettingsModel.swift */; };
+		1D494D4C25F8E83100D79971 /* UserProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494D4B25F8E83100D79971 /* UserProfileHeaderCell.swift */; };
+		1D494D5025F9067900D79971 /* UserProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D494D4F25F9067900D79971 /* UserProfileHeaderView.swift */; };
+		8C717CC63E435D22062038FC /* Pods_Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4941895DD772A3DC12C8978 /* Pods_Spotify.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,10 +60,16 @@
 		1D494C3625F4ABB100D79971 /* PlayList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayList.swift; sourceTree = "<group>"; };
 		1D494C3A25F4ABC100D79971 /* AudioTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrack.swift; sourceTree = "<group>"; };
 		1D494C3D25F4ABCB00D79971 /* Artist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
-		1D494C4025F4ABE400D79971 /* userProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userProfile.swift; sourceTree = "<group>"; };
+		1D494C4025F4ABE400D79971 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 		1D494C4425F4AC9100D79971 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		1D494C4725F4D93D00D79971 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		1D494CC825F74B5A00D79971 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		1D494D4825F8D72900D79971 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		1D494D4B25F8E83100D79971 /* UserProfileHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderCell.swift; sourceTree = "<group>"; };
+		1D494D4F25F9067900D79971 /* UserProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileHeaderView.swift; sourceTree = "<group>"; };
+		5A63F62ABF38EAFE2B208EB7 /* Pods-Spotify.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spotify.release.xcconfig"; path = "Target Support Files/Pods-Spotify/Pods-Spotify.release.xcconfig"; sourceTree = "<group>"; };
+		D4941895DD772A3DC12C8978 /* Pods_Spotify.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Spotify.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAC023A98CB5708021C44344 /* Pods-Spotify.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spotify.debug.xcconfig"; path = "Target Support Files/Pods-Spotify/Pods-Spotify.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C717CC63E435D22062038FC /* Pods_Spotify.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +89,8 @@
 			children = (
 				1D494BE925F4A66C00D79971 /* Spotify */,
 				1D494BE825F4A66C00D79971 /* Products */,
+				EDC7321E6B2B4E13F8781519 /* Pods */,
+				304F39B2F0A13FD46EB06238 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,8 +124,9 @@
 				1D494C3625F4ABB100D79971 /* PlayList.swift */,
 				1D494C3A25F4ABC100D79971 /* AudioTrack.swift */,
 				1D494C3D25F4ABCB00D79971 /* Artist.swift */,
-				1D494C4025F4ABE400D79971 /* userProfile.swift */,
+				1D494C4025F4ABE400D79971 /* UserProfile.swift */,
 				1D494CC825F74B5A00D79971 /* AuthResponse.swift */,
+				1D494D4825F8D72900D79971 /* SettingsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -120,6 +134,7 @@
 		1D494C0325F4A6CC00D79971 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1D494D4E25F9064300D79971 /* UserView */,
 				1D494BF825F4A66F00D79971 /* LaunchScreen.storyboard */,
 			);
 			path = Views;
@@ -193,6 +208,32 @@
 			path = "Supporting-File";
 			sourceTree = "<group>";
 		};
+		1D494D4E25F9064300D79971 /* UserView */ = {
+			isa = PBXGroup;
+			children = (
+				1D494D4B25F8E83100D79971 /* UserProfileHeaderCell.swift */,
+				1D494D4F25F9067900D79971 /* UserProfileHeaderView.swift */,
+			);
+			path = UserView;
+			sourceTree = "<group>";
+		};
+		304F39B2F0A13FD46EB06238 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D4941895DD772A3DC12C8978 /* Pods_Spotify.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EDC7321E6B2B4E13F8781519 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DAC023A98CB5708021C44344 /* Pods-Spotify.debug.xcconfig */,
+				5A63F62ABF38EAFE2B208EB7 /* Pods-Spotify.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -200,9 +241,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D494BFE25F4A66F00D79971 /* Build configuration list for PBXNativeTarget "Spotify" */;
 			buildPhases = (
+				4DB8D0C6551AAC583921C43B /* [CP] Check Pods Manifest.lock */,
 				1D494BE325F4A66C00D79971 /* Sources */,
 				1D494BE425F4A66C00D79971 /* Frameworks */,
 				1D494BE525F4A66C00D79971 /* Resources */,
+				59B1109FE603DCFEDEE1A667 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -257,6 +300,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4DB8D0C6551AAC583921C43B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Spotify-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		59B1109FE603DCFEDEE1A667 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Spotify/Pods-Spotify-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Spotify/Pods-Spotify-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Spotify/Pods-Spotify-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		1D494BE325F4A66C00D79971 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -269,14 +354,17 @@
 				1D494BEF25F4A66C00D79971 /* HomeViewController.swift in Sources */,
 				1D494C3025F4AB8500D79971 /* ApiCaller.swift in Sources */,
 				1D494C2125F4AB1E00D79971 /* SettingsViewController.swift in Sources */,
+				1D494D4C25F8E83100D79971 /* UserProfileHeaderCell.swift in Sources */,
 				1D494BEB25F4A66C00D79971 /* AppDelegate.swift in Sources */,
 				1D494CC925F74B5A00D79971 /* AuthResponse.swift in Sources */,
 				1D494C4525F4AC9100D79971 /* TabBarViewController.swift in Sources */,
 				1D494C3B25F4ABC100D79971 /* AudioTrack.swift in Sources */,
 				1D494BF525F4A66C00D79971 /* Spotify.xcdatamodeld in Sources */,
+				1D494D4925F8D72900D79971 /* SettingsModel.swift in Sources */,
 				1D494C3725F4ABB100D79971 /* PlayList.swift in Sources */,
 				1D494C2425F4AB2C00D79971 /* ProfileViewController.swift in Sources */,
-				1D494C4125F4ABE400D79971 /* userProfile.swift in Sources */,
+				1D494D5025F9067900D79971 /* UserProfileHeaderView.swift in Sources */,
+				1D494C4125F4ABE400D79971 /* UserProfile.swift in Sources */,
 				1D494C2A25F4AB5600D79971 /* SerachResultsViewController.swift in Sources */,
 				1D494C4825F4D93D00D79971 /* UIView+Extension.swift in Sources */,
 				1D494C3E25F4ABCB00D79971 /* Artist.swift in Sources */,
@@ -419,6 +507,7 @@
 		};
 		1D494BFF25F4A66F00D79971 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DAC023A98CB5708021C44344 /* Pods-Spotify.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -437,6 +526,7 @@
 		};
 		1D494C0025F4A66F00D79971 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5A63F62ABF38EAFE2B208EB7 /* Pods-Spotify.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

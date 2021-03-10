@@ -10,7 +10,7 @@ import WebKit
 
 
 class AuthViewController: UIViewController {
-
+    
     private let webView : WKWebView = {
         let prefs = WKWebpagePreferences()
         prefs.allowsContentJavaScript = true
@@ -34,12 +34,12 @@ class AuthViewController: UIViewController {
             return
         }
         webView.load(URLRequest(url: url))
-     }
+    }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        webView.frame = view.bounds
-//    }
+    //    override func viewDidLayoutSubviews() {
+    //        super.viewDidLayoutSubviews()
+    //        webView.frame = view.bounds
+    //    }
 }
 
 
@@ -49,8 +49,8 @@ extension AuthViewController: WKNavigationDelegate{
             return
         }
         guard let code = URLComponents(string: url.absoluteString)?
-                                .queryItems?
-                                .first(where: {$0.name == "code"})?.value
+                .queryItems?
+                .first(where: {$0.name == "code"})?.value
         else {
             return
         }
