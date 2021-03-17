@@ -15,23 +15,31 @@ struct NewReleasesResponse: Codable {
 struct AlbumsResponse: Codable{
     let href: String
     let items: [Item]
-//    let limit: Int
-//    let next: String
-//    let offset: Int
-//    let previous: Int
-//    let total: Int
+    //  let limit: Int
+    //  let next: String
+    //  let offset: Int
+    //  let previous: Int
+    //  let total: Int
 }
 
 // MARK: - Item
 struct Item: Codable{
-    let albumType: String?
-    let artists: [Artist]?
-    let availableMarkets: [String]?
-    //let externalUrls: ExternalUrls?
-    let href: String?
-    let id: String?
-    let images: [APIImage]?
-    let name, type, uri: String?
+     let albumType: String?
+       let artists: [Artist]?
+       let availableMarkets: [String]?
+       let externalUrls: ExternalUrls?
+       let href: String?
+       let id: String?
+       let images: [APIImage]?
+       let name, type, uri: String?
+
+       enum CodingKeys: String, CodingKey {
+           case albumType = "album_type"
+           case artists
+           case availableMarkets = "available_markets"
+           case externalUrls = "external_urls"
+           case href, id, images, name, type, uri
+       }
 }
 
 // MARK: - ExternalUrls

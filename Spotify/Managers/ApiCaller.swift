@@ -85,7 +85,34 @@ final class ApiCaller{
     }
     
     //MARK:: Get All Featured Playlists
-    
+    public func GetAllFeaturedPlaylists(completion:@escaping(Result<FeaturePlaylistResponse,Error>)->Void){
+        createRequest(url: URL(string: Constants.baseURL + "browse/featured-playlists"), type: .GET) { result in
+            
+            let task = URLSession.shared.dataTask(with: result) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    
+                    //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
+                    let result = try JSONDecoder().decode(FeaturePlaylistResponse.self, from: data)
+                    print("result:::\(result)")
+                    completion(.success(result))
+                 
+                    
+                    
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+//                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
+
     
     //MARK:: Get All Categories
     

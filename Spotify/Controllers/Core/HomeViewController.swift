@@ -21,7 +21,7 @@ class HomeViewController: UIViewController {
     }
 
     private func getServerData(){
-        ApiCaller.shared.getAllNewReleases {[weak self] result in
+        ApiCaller.shared.GetAllFeaturedPlaylists {[weak self] result in
             DispatchQueue.main.async {
                 print("result:::===\(result)")
                 switch result{
