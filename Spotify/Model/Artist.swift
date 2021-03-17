@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+
+// MARK: - Artist
+struct Artist : Codable{
+//    let externalUrls: ExternalUrls
+    let href: String
+    let id, name, type, uri: String
+}
