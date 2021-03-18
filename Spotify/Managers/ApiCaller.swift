@@ -124,7 +124,64 @@ final class ApiCaller{
     
     
     //MARK:: Get Recommendations
-
+    public func GetRecommendations(geners:Set<String>,completion:@escaping(Result<String,Error>)->Void){
+        let seeds = geners.joined(separator: ",")
+        createRequest(url: URL(string: Constants.baseURL + "recommendations?seed_genres=\(seeds)"), type: .GET) { result in
+            
+            let task = URLSession.shared.dataTask(with: result) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    
+                    let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
+//                    let result = try JSONDecoder().decode(FeaturePlaylistResponse.self, from: data)
+                    print("result:::\(result)")
+                    //completion(.success(result))
+                 
+                    
+                    
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+//                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    //MARK://
+    
+    public func GetRecommandationGenres(completion:@escaping(Result<AvailableGenreSeeds,Error>)->Void){
+        createRequest(url: URL(string: Constants.baseURL + "recommendations/available-genre-seeds"), type: .GET) { result in
+            
+            let task = URLSession.shared.dataTask(with: result) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    
+                    //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
+                    let result = try JSONDecoder().decode(AvailableGenreSeeds.self, from: data)
+                    print("result:::\(result)")
+                    completion(.success(result))
+                 
+                    
+                    
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+//                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
     
     // MARK:: CREATE AUTH REQUEST WITH HEADER
     private func createRequest(
