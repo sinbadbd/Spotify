@@ -17,7 +17,8 @@ final class ApiCaller{
         case failedToGetData
     }
     struct Constants {
-        static let baseURL = "https://api.spotify.com/v1"
+        static let baseURL = "https://api.spotify.com/v1/"
+//        static let UrlME = baseURL+ "/me"
     }
     
     static let shared = ApiCaller()
@@ -25,8 +26,9 @@ final class ApiCaller{
     private init() {}
     
     
+    //MARK: USER PROFILE CALL
     public func getCurrentUserProfile( completion:@escaping (Result<UserProfile, Error>)-> Void){
-        createRequest(url: URL(string: Constants.baseURL + "/me"), type: .GET) { baseRequest in
+        createRequest(url: URL(string: Constants.baseURL + "me"), type: .GET) { baseRequest in
             
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
@@ -52,6 +54,136 @@ final class ApiCaller{
         }
     }
     
+    
+    // MARK:: Get All New Releases
+    public func getAllNewReleases(completion:@escaping(Result<NewReleasesResponse, Error>)->Void){
+        createRequest(url: URL(string: Constants.baseURL + "browse/new-releases?offset=0&limit=50"), type: .GET) { result in
+            
+            let task = URLSession.shared.dataTask(with: result) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    
+                   // let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
+                    let result = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
+                    print("result:::\(result)")
+                    completion(.success(result))
+                 
+                    
+                    
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+//                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    //MARK:: Get All Featured Playlists
+    public func GetAllFeaturedPlaylists(completion:@escaping(Result<FeaturePlaylistResponse,Error>)->Void){
+        createRequest(url: URL(string: Constants.baseURL + "browse/featured-playlists"), type: .GET) { result in
+            
+            let task = URLSession.shared.dataTask(with: result) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    
+                    //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
+                    let result = try JSONDecoder().decode(FeaturePlaylistResponse.self, from: data)
+                    print("result:::\(result)")
+                    completion(.success(result))
+                 
+                    
+                    
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+//                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
+
+    
+    //MARK:: Get All Categories
+    
+    
+    //MARK:: Get A Category
+    
+    
+    //MARK:: Get a Category's Playlists
+    
+    
+    //MARK:: Get Recommendations
+    public func GetRecommendations(geners:Set<String>,completion:@escaping(Result<String,Error>)->Void){
+        let seeds = geners.joined(separator: ",")
+        createRequest(url: URL(string: Constants.baseURL + "recommendations?seed_genres=\(seeds)"), type: .GET) { result in
+            
+            let task = URLSession.shared.dataTask(with: result) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    
+                    let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
+//                    let result = try JSONDecoder().decode(FeaturePlaylistResponse.self, from: data)
+                    print("result:::\(result)")
+                    //completion(.success(result))
+                 
+                    
+                    
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+//                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    //MARK://
+    
+    public func GetRecommandationGenres(completion:@escaping(Result<AvailableGenreSeeds,Error>)->Void){
+        createRequest(url: URL(string: Constants.baseURL + "recommendations/available-genre-seeds"), type: .GET) { result in
+            
+            let task = URLSession.shared.dataTask(with: result) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    
+                    //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
+                    let result = try JSONDecoder().decode(AvailableGenreSeeds.self, from: data)
+                    print("result:::\(result)")
+                    completion(.success(result))
+                 
+                    
+                    
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+//                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    // MARK:: CREATE AUTH REQUEST WITH HEADER
     private func createRequest(
         url:URL?,
         type: HTTPMethod,
