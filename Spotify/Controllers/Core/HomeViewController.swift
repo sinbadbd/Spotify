@@ -23,7 +23,7 @@ class HomeViewController: UIViewController {
     private func getServerData(){
         ApiCaller.shared.GetRecommandationGenres {[weak self] result in
             DispatchQueue.main.async {
-                print("result:::===\(result)")
+                //print("result:::===\(result)")
                 switch result{
                 case .success(let model):
                     let geners = model.genres
@@ -35,8 +35,8 @@ class HomeViewController: UIViewController {
                     }
                     print(model)
                     
-                    ApiCaller.shared.GetRecommendations(geners: seed) { _ in
-                        
+                    ApiCaller.shared.GetRecommendations(geners: seed) { result in
+                        print("result-recommand:\(result)")
                     }
                     
                     
