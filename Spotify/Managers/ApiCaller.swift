@@ -124,7 +124,7 @@ final class ApiCaller{
     
     
     //MARK:: Get Recommendations
-    public func GetRecommendations(geners:Set<String>,completion:@escaping(Result<String,Error>)->Void){
+    public func GetRecommendations(geners:Set<String>,completion:@escaping(Result<RecommandationResonse,Error>)->Void){
         let seeds = geners.joined(separator: ",")
         createRequest(url: URL(string: Constants.baseURL + "recommendations?seed_genres=\(seeds)"), type: .GET) { result in
             
@@ -135,11 +135,11 @@ final class ApiCaller{
                 }
                 do {
                     
-                    let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
                    
-//                    let result = try JSONDecoder().decode(FeaturePlaylistResponse.self, from: data)
-                    print("result:::\(result)")
-                    //completion(.success(result))
+                   let result = try JSONDecoder().decode(RecommandationResonse.self, from: data)
+                    //print("result:::\(result)")
+                   completion(.success(result))
                  
                     
                     
