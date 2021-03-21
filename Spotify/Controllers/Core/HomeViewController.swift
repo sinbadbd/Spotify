@@ -9,20 +9,22 @@ import UIKit
 
 
 enum BrowserSlection {
-    case newRelease
-    case featurePlayList
-    case recommandationTrack
+    case newRelease(viewModel: [NewReleaseCellViewModel])
+    case featurePlayList(viewModel: [NewReleaseCellViewModel])
+    case recommandationTrack(viewModel: [NewReleaseCellViewModel])
 }
 
 
 
 class HomeViewController: UIViewController {
-
+    
     //MARK: UI LAYOUT
     private var collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ -> NSCollectionLayoutSection? in
         return HomeViewController.createSectionLayout(section: sectionIndex)
     }))
     
+    
+    private var sections = [BrowserSlection]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,21 +32,28 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .white
         navHeader()
         getServerData()
- 
+        
         configureCollectionView()
     }
     private func configureCollectionView(){
         view.addSubview(collectionView)
         collectionView.fitToSuper()
-//        collectionView.position(top: view.topAnchor, left: view.leadingAnchor, bottom: view.bottomAnchor, right: view.trailingAnchor, insets: .init())
+        //        collectionView.position(top: view.topAnchor, left: view.leadingAnchor, bottom: view.bottomAnchor, right: view.trailingAnchor, insets: .init())
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(NewReleaseCollectionViewCell.self, forCellWithReuseIdentifier: NewReleaseCollectionViewCell.indetifer)
+        
+        collectionView.register(FeatureCollectionViewCell.self, forCellWithReuseIdentifier: FeatureCollectionViewCell.indetifer)
+        
+        collectionView.register(RecommandCollectionViewCell.self, forCellWithReuseIdentifier:  RecommandCollectionViewCell.indetifer)
+        
+        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
     }
     
     private static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
-    
+        
         switch section {
         case 0:
             //MARK: ITEM
@@ -121,7 +130,7 @@ class HomeViewController: UIViewController {
             let section = NSCollectionLayoutSection(group: HorizontalGroup)
             section.orthogonalScrollingBehavior = .groupPaging
             return section
-        
+            
         }
         
     }
@@ -129,9 +138,59 @@ class HomeViewController: UIViewController {
     func navHeader(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.fill"), style: .done, target: self, action: #selector(didTapSettings))
     }
-
+    
     private func getServerData(){
-        ApiCaller.shared.GetRecommandationGenres {[weak self] result in
+        
+        
+        let group = DispatchGroup()
+        group.enter()
+        group.enter()
+        group.enter()
+        
+        var newReleaseRes : NewReleasesResponse?
+        var featureRes : FeaturePlaylistResponse?
+        var recommandRes: RecommandationResonse?
+        
+        //MARK: NEW RELEASE
+        ApiCaller.shared.getAllNewReleases { result in
+            
+            defer {
+                group.leave()
+            }
+            
+            switch result {
+            case .success(let model):
+                newReleaseRes = model
+                break
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+        
+        //MARK: Feature list
+        ApiCaller.shared.GetAllFeaturedPlaylists { result in
+            defer {
+                group.leave()
+            }
+            switch result {
+            case .success(let model):
+                featureRes = model
+                break
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
+        }
+        
+        
+        
+        //MARK: Recommandation list
+        ApiCaller.shared.GetRecommandationGenres {[self] result in
+            defer {
+                group.leave()
+            }
+            
             DispatchQueue.main.async {
                 //print("result:::===\(result)")
                 switch result{
@@ -147,23 +206,55 @@ class HomeViewController: UIViewController {
                     
                     ApiCaller.shared.GetRecommendations(geners: seed) { result in
                         print("result-recommand:\(result)")
+                        defer {
+                            group.leave()
+                        }
+                        
+                        switch result {
+                        case .success(let model):
+                            recommandRes = model
+                            break
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                            break
+                        }
+                        
                     }
-                    
-                    
                     break
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
             }
+            // Configuration viewmodel
+        }
+        
+        group.notify(queue: .main) {
+            guard
+                let newAlbum = newReleaseRes?.albums,
+                let feture = featureRes?.playlists,
+                let recomnd = recommandRes?.tracks
+            else {
+                return
+            }
         }
     }
+    
+    func configurationViewModel(newAlbums:[Ablum],feture:[PlayList], recomnd:[AudioTrack]){
+        
+//        sections.append(BrowserSlection.newRelease(viewModel: newAlbums.compactMap({
+//            return NewReleaseCellViewModel(name: $0.name ?? "", artWorkURL: $0.images?.first?.url, numberOfTracks: <#T##Int#>, artistName: <#T##String#>)
+//        })))
+        sections.append(BrowserSlection.featurePlayList(viewModel: []))
+        sections.append(BrowserSlection.recommandationTrack(viewModel: []))
+    }
+    
     @objc func didTapSettings(){
         let vc = SettingsViewController()
         vc.title = "Settings"
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
-
+    
 }
 
 
@@ -173,7 +264,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return sections.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
@@ -185,7 +276,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         }else if indexPath.section == 2 {
             cell.backgroundColor = .green
         }
-       
+        
         return cell
     }
     
