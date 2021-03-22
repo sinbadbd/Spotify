@@ -69,7 +69,7 @@ final class ApiCaller{
                    // let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
                    
                     let result = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
-                    print("result:::\(result)")
+                   // print("result:::\(result)")
                     completion(.success(result))
                  
                     
@@ -98,7 +98,7 @@ final class ApiCaller{
                     //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
                    
                     let result = try JSONDecoder().decode(FeaturePlaylistResponse.self, from: data)
-                    print("result:::\(result)")
+                  //  print("result:::\(result)")
                     completion(.success(result))
                  
                     
@@ -168,7 +168,7 @@ final class ApiCaller{
                     //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
                    
                     let result = try JSONDecoder().decode(AvailableGenreSeeds.self, from: data)
-                    print("result:::\(result)")
+                   // print("result:::\(result)")
                     completion(.success(result))
                  
                     
