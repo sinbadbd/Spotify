@@ -226,7 +226,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             let  viewModel = viewModel[indexPath.item]
             print("viewModel:\(viewModel)")
-            cell.backgroundColor = .red
+//            cell.backgroundColor = .red
+            cell.configureCell(viewModel: viewModel)
             return cell
             
         case .featurePlayList(let viewModel):
