@@ -11,7 +11,7 @@ import UIKit
 enum BrowserSlection {
     case newRelease(viewModel: [NewReleaseCellViewModel])
     case featurePlayList(viewModel: [FeaturedPlayListModelView])
-    case recommandationTrack(viewModel: [NewReleaseCellViewModel])
+    case recommandationTrack(viewModel: [RecommandViewModel])
 }
 
 
@@ -31,13 +31,18 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .red
         navHeader()
-       
+        
+        
         configureCollectionView()
-        getServerData()
+        //        getServerData()
+        
+        fetchData()
+        // getAllData()
     }
     private func configureCollectionView(){
         view.addSubview(collectionView)
         collectionView.fitToSuper()
+        
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         collectionView.register(NewReleaseCollectionViewCell.self, forCellWithReuseIdentifier: NewReleaseCollectionViewCell.indetifer)
@@ -50,148 +55,117 @@ class HomeViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .systemBackground
-      
-//        collectionView.reloadData()
-        
         
     }
-    
-    
+ 
     
     func navHeader(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.fill"), style: .done, target: self, action: #selector(didTapSettings))
     }
     
-    private func getServerData(){
-        
-        
+     
+    
+    private func fetchData() {
         let group = DispatchGroup()
         group.enter()
         group.enter()
         group.enter()
+        var newReleases: NewReleasesResponse?
+        var featuredPlaylist: FeaturePlaylistResponse?
+        var recommendations: RecommandationResonse?
         
-        var newReleaseRes : NewReleasesResponse?
-        var featureRes : FeaturePlaylistResponse?
-        var recommandRes: RecommandationResonse?
-        
-        //MARK: NEW RELEASE
+        // New Releases
         ApiCaller.shared.getAllNewReleases { result in
-            //            print(result)
-                defer {
-                    group.leave()
-                }
-    
+            defer {
+                group.leave()
+            }
             switch result {
             case .success(let model):
-                newReleaseRes = model
-//                self.configurModel(newAlbumList: newReleaseRes?.albums.items ?? [])
-            //                print(newReleaseRes?.albums.items.count)
+                newReleases = model
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
         
-        //MARK: Feature list
-        
-        
+        // Featured Playlists
         ApiCaller.shared.GetAllFeaturedPlaylists { result in
             defer {
                 group.leave()
             }
-            print("result:::::\(result)")
+            
             switch result {
             case .success(let model):
-                featureRes = model
-//                print("featureRes:\(featureRes) ")
-//                print("featureRes?.playlists.items.count:\(featureRes?.playlists.items.count)")
-//                self.configurModel( featuredList: featureRes?.playlists.items ?? [])
+                featuredPlaylist = model
             case .failure(let error):
                 print(error.localizedDescription)
                 
             }
         }
         
+        // Recommended Tracks
+        ApiCaller.shared.GetRecommandationGenres { result in
+            switch result {
+            case .success(let model):
+                let genres = model.genres
+                var seeds = Set<String>()
+                while seeds.count < 5 {
+                    if let random = genres.randomElement() {
+                        seeds.insert(random)
+                    }
+                }
+                
+                ApiCaller.shared.GetRecommendations(geners: seeds) { recommendedResult in
+                    defer {
+                        group.leave()
+                    }
+                    
+                    switch recommendedResult {
+                    case .success(let model):
+                        recommendations = model
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
         
-        
-        //MARK: Recommandation list
-        /*
-         ApiCaller.shared.GetRecommandationGenres {[self] result in
-         defer {
-         group.leave()
-         }
-         
-         DispatchQueue.main.async {
-         //print("result:::===\(result)")
-         switch result{
-         case .success(let model):
-         let geners = model.genres
-         var seed = Set<String>()
-         while seed.count < 5 {
-         if let random = geners.randomElement(){
-         seed.insert(random)
-         }
-         }
-         //                    print(model)
-         
-         ApiCaller.shared.GetRecommendations(geners: seed) { result in
-         //  print("result-recommand:\(result)")
-         defer {
-         //  group.leave()
-         }
-         
-         switch result {
-         case .success(let model):
-         recommandRes = model
-         break
-         case .failure(let error):
-         print(error.localizedDescription)
-         break
-         }
-         
-         }
-         break
-         case .failure(let error):
-         print(error.localizedDescription)
-         }
-         }
-         // Configuration viewmodel
-         
-         }
-         */
-        
-       
-         group.notify(queue: .main) {
-         guard let newAlbum = newReleaseRes?.albums.items,
-             let feture = featureRes?.playlists.items,
-             let recommand = recommandRes?.tracks else {
-             //                fatalError("moelds are nil")
-             return
-             
-             }
-             print("newAlbum:\(newAlbum)")
-             self.configurModel(newAlbumList: newAlbum, featuredList: feture)
-          
-         }
+        group.notify(queue: .main) {
+            guard let newAlbums = newReleases?.albums.items,
+                  let playlists = featuredPlaylist?.playlists.items,
+                  let tracks = recommendations?.tracks else {
+                fatalError("Models are nil")
+            }
+            self.configurModel(newAlbumList: newAlbums, featuredList: playlists, recommandation: tracks)
+        }
     }
     
+     
     
-    public func configurModel(newAlbumList:[Ablum]?=nil, featuredList:[PlayList]?=nil){
+    
+    public func configurModel(newAlbumList:[Ablum]?=nil, featuredList:[PlayList]?=nil, recommandation:[AudioTrack]?=nil){
         
         sections.append(.newRelease(viewModel: newAlbumList?.compactMap({
             return NewReleaseCellViewModel(name: $0.name ?? "", artWorkURL: URL(string: $0.images?.first?.url ?? ""), numberOfTracks: $0.totalTracks ?? 0, artistName: $0.artists?.first?.name ?? "")
         }) ?? []))
-        
-//        print("tst:\(featuredList?.count ?? 0)")
         
         sections.append(.featurePlayList(viewModel: featuredList?.compactMap({
             return FeaturedPlayListModelView(name: $0.name)
         }) ?? []))
         
         
-        //        sections.append(BrowserSlection.featurePlayList(viewModel: []))
-     sections.append(.recommandationTrack(viewModel: []))
+        sections.append(.recommandationTrack(viewModel: recommandation?.compactMap({
+            return RecommandViewModel(name: $0.name)
+        }) ?? []))
         
-       
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+        
+        
     }
     
     @objc func didTapSettings(){
@@ -224,127 +198,161 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         print(sections.count)
         return sections.count
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let type = sections[indexPath.section]
-        
-        print("type\(type)")
-        
         switch type {
-        
-            case .newRelease(let viewModel):
-                guard let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: NewReleaseCollectionViewCell.indetifer, for: indexPath) as? NewReleaseCollectionViewCell) else {
-                    return  UICollectionViewCell()
-                }
-                
-                let  viewModel = viewModel[indexPath.item]
-                cell.configureCell(viewModel: viewModel)
-                
-                return cell
-                
-            case .featurePlayList(let viewModel):
-                guard let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: FeatureCollectionViewCell.indetifer, for: indexPath) as? FeatureCollectionViewCell) else {
-                    return  UICollectionViewCell()
-                }
-                let viewModel = viewModel[indexPath.item]
-                print("viewModel:\(viewModel)")
-                cell.backgroundColor = .blue
-                //            collectionView.reloadData()
-                return cell
-            case .recommandationTrack(let viewModel):
-                guard let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: RecommandCollectionViewCell.indetifer, for: indexPath) as? RecommandCollectionViewCell) else {
-                    return  UICollectionViewCell()
-                }
-                let viewModel = viewModel[indexPath.item]
-                cell.backgroundColor = .green
-                return cell
+        case .newRelease(let viewModels):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: NewReleaseCollectionViewCell.indetifer,
+                for: indexPath
+            ) as? NewReleaseCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            cell.backgroundColor = .cyan
+            let viewModel = viewModels[indexPath.row]
+            cell.configureCell(viewModel: viewModel)
+            return cell
+        case .featurePlayList(let viewModels):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: FeatureCollectionViewCell.indetifer,
+                for: indexPath
+            ) as? FeatureCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            let viewModel = viewModels[indexPath.row]
+            cell.backgroundColor = .magenta
+            cell.configureCell(viewModel: viewModel)
+            return cell
+        case .recommandationTrack(let viewModels):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: RecommandCollectionViewCell.indetifer,
+                for: indexPath
+            ) as? RecommandCollectionViewCell else {
+                return UICollectionViewCell()
+            }
+            let viewModel = viewModels[indexPath.row]
+            cell.backgroundColor = .orange
+            cell.configureCell(viewModel: viewModel)
+            return cell
         }
-        
     }
-    
-    
-    private static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
-//       let sec =  sections[indexPath.section]
+
+    static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
+        
         switch section {
         case 0:
-            //MARK: ITEM
-            let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0)))
-            
-            //MARK: PADDING
+            // Item
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(0.1)
+                )
+            )
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             
-            //MARK: VERTICLE GROUP
-            let VerticleGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(360)), subitem: item, count: 3)
+            // Vertical group in horizontal group
+            let verticalGroup = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(300)
+                ),
+                subitem: item,
+                count: 3
+            )
             
-            //MARK: HORIZONTAL GROUP
-            let HorizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(360)), subitem: VerticleGroup, count: 1)
+            let horizontalGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.9),
+                    heightDimension: .absolute(390)
+                ),
+                subitem: verticalGroup,
+                count: 1
+            )
             
-            //MARK: SECTION
-            let section = NSCollectionLayoutSection(group: HorizontalGroup)
+            // Section
+            let section = NSCollectionLayoutSection(group: horizontalGroup)
             section.orthogonalScrollingBehavior = .groupPaging
             return section
-            
-            
-            
         case 1:
-            
-            //MARK: ITEM
-            let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(150), heightDimension: .absolute(150)))
-            
-            //MARK: PADDING
+            // Item
+            // Item
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .absolute(200),
+                    heightDimension: .absolute(200)
+                )
+            )
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             
-            //MARK: VERTICLE GROUP
-            let VerticleGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(200), heightDimension: .absolute(250)), subitem: item, count: 2)
-            VerticleGroup.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 2, bottom: 20, trailing: 10)
-            //MARK: HORIZONTAL GROUP
-            let HorizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(150), heightDimension: .absolute(250)), subitem: VerticleGroup, count: 1)
+            let verticalGroup = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .absolute(200),
+                    heightDimension: .absolute(400)
+                ),
+                subitem: item,
+                count: 2
+            )
             
-            //MARK: SECTION
-            let section = NSCollectionLayoutSection(group: HorizontalGroup)
-            section.orthogonalScrollingBehavior = .continuous
+            let horizontalGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .absolute(200),
+                    heightDimension: .absolute(400)
+                ),
+                subitem: verticalGroup,
+                count: 1
+            )
+            
+            // Section
+            let section = NSCollectionLayoutSection(group: horizontalGroup)
+            section.orthogonalScrollingBehavior = .groupPaging
             return section
         case 2:
-            //MARK: ITEM
-            let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0)))
-            
-            //MARK: PADDING
+            // Item
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(1.0)
+                )
+            )
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             
-            //MARK: VERTICLE GROUP
-            let VerticleGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(360)), subitem: item, count: 3)
+            let group = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(80)
+                ),
+                subitem: item,
+                count: 1
+            )
             
-            //MARK: HORIZONTAL GROUP
-            let HorizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(360)), subitem: VerticleGroup, count: 1)
-            
-            //MARK: SECTION
-            let section = NSCollectionLayoutSection(group: HorizontalGroup)
-            section.orthogonalScrollingBehavior = .groupPaging
+            let section = NSCollectionLayoutSection(group: group)
             return section
-            
         default:
-            let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0)))
-            
-            //MARK: PADDING
+            // Item
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(1.0)
+                )
+            )
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             
-            //MARK: VERTICLE GROUP
-            let VerticleGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(100)), subitem: item, count: 1)
-            
-            //MARK: HORIZONTAL GROUP
-            let HorizontalGroup = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9), heightDimension: .absolute(100)), subitem: VerticleGroup, count: 1)
-            
-            //MARK: SECTION
-            let section = NSCollectionLayoutSection(group: HorizontalGroup)
-            section.orthogonalScrollingBehavior = .groupPaging
+            let group = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(100)
+                ),
+                subitem: item,
+                count: 1
+            )
+            let section = NSCollectionLayoutSection(group: group)
             return section
-            
         }
-        
-    }
     
+    }
 }
