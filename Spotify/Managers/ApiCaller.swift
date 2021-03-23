@@ -18,7 +18,7 @@ final class ApiCaller{
     }
     struct Constants {
         static let baseURL = "https://api.spotify.com/v1/"
-        //        static let UrlME = baseURL+ "/me"
+//        static let UrlME = baseURL+ "/me"
     }
     
     static let shared = ApiCaller()
@@ -37,8 +37,8 @@ final class ApiCaller{
                 }
                 do {
                     
-                    //                    let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    
+//                    let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
                     let result = try JSONDecoder().decode(UserProfile.self, from: data)
                     completion(.success(result))
                     print(result)
@@ -47,7 +47,7 @@ final class ApiCaller{
                 } catch {
                     completion(.failure(APIError.failedToGetData))
                     print(error.localizedDescription)
-                    //                    completion(false)
+//                    completion(false)
                 }
             }
             task.resume()
@@ -66,18 +66,18 @@ final class ApiCaller{
                 }
                 do {
                     
-                    // let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    
+                   // let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
                     let result = try JSONDecoder().decode(NewReleasesResponse.self, from: data)
-                    // print("result:::\(result)")
+                   // print("result:::\(result)")
                     completion(.success(result))
-                    
+                 
                     
                     
                 } catch {
                     completion(.failure(APIError.failedToGetData))
                     print(error.localizedDescription)
-                    //                    completion(false)
+//                    completion(false)
                 }
             }
             task.resume()
@@ -96,21 +96,23 @@ final class ApiCaller{
                 do {
                     
                     //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    
+                   
                     let result = try JSONDecoder().decode(FeaturePlaylistResponse.self, from: data)
-                    print("result:::====\(result)")
+                  //  print("result:::\(result)")
                     completion(.success(result))
+                 
+                    
                     
                 } catch {
                     completion(.failure(APIError.failedToGetData))
                     print(error.localizedDescription)
-                    //                    completion(false)
+//                    completion(false)
                 }
             }
             task.resume()
         }
     }
-    
+
     
     //MARK:: Get All Categories
     
@@ -134,17 +136,17 @@ final class ApiCaller{
                 do {
                     
                     //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    
-                    let result = try JSONDecoder().decode(RecommandationResonse.self, from: data)
+                   
+                   let result = try JSONDecoder().decode(RecommandationResonse.self, from: data)
                     //print("result:::\(result)")
-                    completion(.success(result))
-                    
+                   completion(.success(result))
+                 
                     
                     
                 } catch {
                     completion(.failure(APIError.failedToGetData))
                     print(error.localizedDescription)
-                    //                    completion(false)
+//                    completion(false)
                 }
             }
             task.resume()
@@ -164,17 +166,17 @@ final class ApiCaller{
                 do {
                     
                     //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
-                    
+                   
                     let result = try JSONDecoder().decode(AvailableGenreSeeds.self, from: data)
-                    // print("result:::\(result)")
+                   // print("result:::\(result)")
                     completion(.success(result))
-                    
+                 
                     
                     
                 } catch {
                     completion(.failure(APIError.failedToGetData))
                     print(error.localizedDescription)
-                    //                    completion(false)
+//                    completion(false)
                 }
             }
             task.resume()
