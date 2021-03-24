@@ -37,8 +37,8 @@ class RecommandCollectionViewCell: UICollectionViewCell {
     
     func configureCell(viewModel: RecommandViewModel){
 //        let url = URL(string: "\(viewModel.artWorkURL ?? "")")
-//        self.songImage.sd_setImage(with: viewModel.artWorkURL, completed: nil)
-//        self.songTitle.text = viewModel.name
+        self.songImage.sd_setImage(with: viewModel.artWorkURL, completed: nil)
+//         self.songTitle.text = viewModel.name
         
         
         

@@ -18,6 +18,11 @@ enum BrowserSlection {
 
 class HomeViewController: UIViewController {
     
+    private var newAlbumList: [Ablum] = []
+    private var featuredList : [PlayList] = []
+    private var recommandation : [AudioTrack] = []
+    
+    
     //MARK: UI LAYOUT
     private var collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ -> NSCollectionLayoutSection? in
         return HomeViewController.createSectionLayout(section: sectionIndex)
@@ -133,6 +138,7 @@ class HomeViewController: UIViewController {
             }
         }
         
+        
         group.notify(queue: .main) {
             guard let newAlbums = newReleases?.albums.items,
                   let playlists = featuredPlaylist?.playlists.items,
@@ -142,24 +148,27 @@ class HomeViewController: UIViewController {
             self.configurModel(newAlbumList: newAlbums, featuredList: playlists, recommandation: tracks)
         }
     }
+
     
-     
-    
-    
-    public func configurModel(newAlbumList:[Ablum]?=nil, featuredList:[PlayList]?=nil, recommandation:[AudioTrack]?=nil){
+    public func configurModel(newAlbumList:[Ablum], featuredList:[PlayList], recommandation:[AudioTrack]){
         
-        sections.append(.newRelease(viewModel: newAlbumList?.compactMap({
+        self.newAlbumList = newAlbumList
+        self.featuredList = featuredList
+        self.recommandation = recommandation
+        
+        
+        sections.append(.newRelease(viewModel: newAlbumList.compactMap({
             return NewReleaseCellViewModel(name: $0.name ?? "", artWorkURL: URL(string: $0.images?.first?.url ?? ""), numberOfTracks: $0.totalTracks ?? 0, artistName: $0.artists?.first?.name ?? "")
-        }) ?? []))
+        }) ))
         
-        sections.append(.featurePlayList(viewModel: featuredList?.compactMap({
+        sections.append(.featurePlayList(viewModel: featuredList.compactMap({
             return FeaturedPlayListModelView(name: $0.name)
-        }) ?? []))
+        }) ))
         
         
-        sections.append(.recommandationTrack(viewModel: recommandation?.compactMap({
-            return RecommandViewModel(name: $0.name)
-        }) ?? []))
+        sections.append(.recommandationTrack(viewModel: recommandation.compactMap({
+            return RecommandViewModel(name: $0.name, artWorkURL: URL(string: $0.album.images?.first?.url ?? ""), artistName: $0.name)
+        }) ))
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -197,6 +206,28 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         print(sections.count)
         return sections.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let section = sections[indexPath.section]
+        
+        switch section {
+        case .newRelease:
+            
+            let vc = NewReleasePlayListVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case .featurePlayList:
+            
+            let vc = FeaturePlayListVC()
+            navigationController?.pushViewController(vc, animated: true)
+        case .recommandationTrack:
+            
+            let vc = RecommandationPlayListVC()
+            navigationController?.pushViewController(vc, animated: true)
+        
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
