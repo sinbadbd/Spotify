@@ -280,17 +280,17 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             // Item
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(200),
-                    heightDimension: .absolute(200)
+                    widthDimension: .absolute(150),
+                    heightDimension: .absolute(350)
                 )
             )
             
-            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 20)
             
             let verticalGroup = NSCollectionLayoutGroup.vertical(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(200),
-                    heightDimension: .absolute(400)
+                    widthDimension: .absolute(150),
+                    heightDimension: .absolute(350)
                 ),
                 subitem: item,
                 count: 2
@@ -298,12 +298,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(200),
-                    heightDimension: .absolute(400)
+                    widthDimension: .absolute(150),
+                    heightDimension: .absolute(350)
                 ),
                 subitem: verticalGroup,
                 count: 1
             )
+//            horizontalGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 20)
             
             // Section
             let section = NSCollectionLayoutSection(group: horizontalGroup)

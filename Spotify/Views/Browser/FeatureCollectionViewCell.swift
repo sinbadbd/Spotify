@@ -20,12 +20,12 @@ class FeatureCollectionViewCell: UICollectionViewCell {
         addSubview(songTitle)
         
         
-        songImage.position(top: topAnchor, left: leadingAnchor, bottom: bottomAnchor)
+        songImage.position(top: topAnchor, left: leadingAnchor, insets: .init(top: 0, left: 10, bottom: 0, right: 10))
         songImage.backgroundColor = .blue
-        songImage.size(width:120, height: 80)
+        songImage.size(width:150, height: 80)
         
-        songTitle.position(top: topAnchor, left: songImage.trailingAnchor, bottom: bottomAnchor,right:trailingAnchor ,insets: .init(top: 5, left: 10, bottom: 0, right: 20))
-        
+        songTitle.position(top: songImage.bottomAnchor, left: leadingAnchor, bottom: bottomAnchor,right:trailingAnchor ,insets: .init(top: 5, left: 10, bottom: 0, right: 20))
+        songTitle.backgroundColor = .red
         songTitle.numberOfLines = 0
 
         
