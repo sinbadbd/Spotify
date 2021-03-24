@@ -216,15 +216,27 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         switch section {
         case .newRelease:
             
-            let vc = NewReleasePlayListVC()
+            let album = newAlbumList[indexPath.item]
+            
+            let vc = NewReleasePlayListVC(album: album)
+            vc.title = album.name
+            vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
+             
         case .featurePlayList:
             
-            let vc = FeaturePlayListVC()
+            let playlist = featuredList[indexPath.item]
+            let vc = FeaturePlayListVC(playList: playlist)
+            vc.title = playlist.name
+            vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
+            
         case .recommandationTrack:
             
-            let vc = RecommandationPlayListVC()
+            let recomand = recommandation[indexPath.item]
+            let vc = RecommandationPlayListVC(audioTrack: recomand)
+            vc.title = recomand.name
+            vc.navigationItem.largeTitleDisplayMode = .never
             navigationController?.pushViewController(vc, animated: true)
         
         }

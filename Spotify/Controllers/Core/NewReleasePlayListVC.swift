@@ -8,10 +8,22 @@
 import UIKit
 
 class NewReleasePlayListVC: UIViewController {
-
+    
+    private var album : Ablum
+    
+    init(album: Ablum) {
+        self.album = album
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor  = .green
+        title = album.name
         // Do any additional setup after loading the view.
     }
     

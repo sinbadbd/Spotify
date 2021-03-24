@@ -9,43 +9,7 @@ import Foundation
 
 // MARK: - Track
 struct AudioTrack: Codable {
-    
-//    let album: Ablum
-//       let artists: [LinkedFrom]
-//       let discNumber, durationMS: Int
-//       let explicit: Bool
-//       let externalIDS: ExternalIDS
-//       let externalUrls: ExternalUrls
-//       let href: String
-//       let id: String
-//       let isLocal, isPlayable: Bool
-//       let name: String
-//       let popularity: Int
-//       let previewURL: String?
-//       let trackNumber: Int
-//       let type: LinkedFromType
-//       let uri: String
-//       let linkedFrom: LinkedFrom?
-//
-//       enum CodingKeys: String, CodingKey {
-//           case album, artists
-//           case discNumber = "disc_number"
-//           case durationMS = "duration_ms"
-//           case explicit
-//           case externalIDS = "external_ids"
-//           case externalUrls = "external_urls"
-//           case href, id
-//           case isLocal = "is_local"
-//           case isPlayable = "is_playable"
-//           case name, popularity
-//           case previewURL = "preview_url"
-//           case trackNumber = "track_number"
-//           case type, uri
-//           case linkedFrom = "linked_from"
-//       }
-    
-    
-    
+  
         let album: Ablum
         let artists: [LinkedFrom]
         let disc_number, duration_ms: Int
