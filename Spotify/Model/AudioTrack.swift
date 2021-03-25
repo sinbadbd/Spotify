@@ -10,7 +10,7 @@ import Foundation
 // MARK: - Track
 struct AudioTrack: Codable {
   
-        let album: Ablum
+        let album: Album
         let artists: [LinkedFrom]
         let disc_number, duration_ms: Int
         let explicit: Bool

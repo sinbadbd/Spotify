@@ -18,7 +18,7 @@ enum BrowserSlection {
 
 class HomeViewController: UIViewController {
     
-    private var newAlbumList: [Ablum] = []
+    private var newAlbumList: [Album] = []
     private var featuredList : [PlayList] = []
     private var recommandation : [AudioTrack] = []
     
@@ -143,14 +143,16 @@ class HomeViewController: UIViewController {
             guard let newAlbums = newReleases?.albums.items,
                   let playlists = featuredPlaylist?.playlists.items,
                   let tracks = recommendations?.tracks else {
-                fatalError("Models are nil")
+//                fatalError("Models are nil")
+                print("error...")
+                return
             }
             self.configurModel(newAlbumList: newAlbums, featuredList: playlists, recommandation: tracks)
         }
     }
 
     
-    public func configurModel(newAlbumList:[Ablum], featuredList:[PlayList], recommandation:[AudioTrack]){
+    public func configurModel(newAlbumList:[Album], featuredList:[PlayList], recommandation:[AudioTrack]){
         
         self.newAlbumList = newAlbumList
         self.featuredList = featuredList

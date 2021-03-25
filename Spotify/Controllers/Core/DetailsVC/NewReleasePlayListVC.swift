@@ -9,9 +9,9 @@ import UIKit
 
 class NewReleasePlayListVC: UIViewController {
     
-    private var album : Ablum
+    private var album : Album
     
-    init(album: Ablum) {
+    init(album: Album) {
         self.album = album
         super.init(nibName: nil, bundle: nil)
     }
@@ -25,17 +25,21 @@ class NewReleasePlayListVC: UIViewController {
         view.backgroundColor  = .green
         title = album.name
         // Do any additional setup after loading the view.
+        
+        serverData()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func serverData(){
+        ApiCaller.shared.getAlbumDetails(from: album) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let model):
+                    print(model)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
-    */
 
 }

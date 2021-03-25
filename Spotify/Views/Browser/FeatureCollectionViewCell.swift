@@ -21,11 +21,11 @@ class FeatureCollectionViewCell: UICollectionViewCell {
         
         
         songImage.position(top: topAnchor, left: leadingAnchor, insets: .init(top: 0, left: 10, bottom: 0, right: 10))
-        songImage.backgroundColor = .blue
+        //songImage.backgroundColor = .blue
         songImage.size(width:150, height: 80)
         
         songTitle.position(top: songImage.bottomAnchor, left: leadingAnchor, bottom: bottomAnchor,right:trailingAnchor ,insets: .init(top: 5, left: 10, bottom: 0, right: 20))
-        songTitle.backgroundColor = .red
+        //songTitle.backgroundColor = .red
         songTitle.numberOfLines = 0
 
         
