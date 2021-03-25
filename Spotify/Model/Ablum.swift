@@ -1,5 +1,5 @@
 //
-//  Ablum.swift
+//  Album.swift
 //  Spotify
 //
 //  Created by Imran on 18/3/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 // MARK: - Item
-struct Ablum: Codable{
+struct Album: Codable{
      let albumType: String?
        let artists: [Artist]?
        let availableMarkets: [String]?

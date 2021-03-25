@@ -18,6 +18,11 @@ enum BrowserSlection {
 
 class HomeViewController: UIViewController {
     
+    private var newAlbumList: [Album] = []
+    private var featuredList : [PlayList] = []
+    private var recommandation : [AudioTrack] = []
+    
+    
     //MARK: UI LAYOUT
     private var collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ -> NSCollectionLayoutSection? in
         return HomeViewController.createSectionLayout(section: sectionIndex)
@@ -133,33 +138,39 @@ class HomeViewController: UIViewController {
             }
         }
         
+        
         group.notify(queue: .main) {
             guard let newAlbums = newReleases?.albums.items,
                   let playlists = featuredPlaylist?.playlists.items,
                   let tracks = recommendations?.tracks else {
-                fatalError("Models are nil")
+//                fatalError("Models are nil")
+                print("error...")
+                return
             }
             self.configurModel(newAlbumList: newAlbums, featuredList: playlists, recommandation: tracks)
         }
     }
+
     
-     
-    
-    
-    public func configurModel(newAlbumList:[Ablum]?=nil, featuredList:[PlayList]?=nil, recommandation:[AudioTrack]?=nil){
+    public func configurModel(newAlbumList:[Album], featuredList:[PlayList], recommandation:[AudioTrack]){
         
-        sections.append(.newRelease(viewModel: newAlbumList?.compactMap({
+        self.newAlbumList = newAlbumList
+        self.featuredList = featuredList
+        self.recommandation = recommandation
+        
+        
+        sections.append(.newRelease(viewModel: newAlbumList.compactMap({
             return NewReleaseCellViewModel(name: $0.name ?? "", artWorkURL: URL(string: $0.images?.first?.url ?? ""), numberOfTracks: $0.totalTracks ?? 0, artistName: $0.artists?.first?.name ?? "")
-        }) ?? []))
+        }) ))
         
-        sections.append(.featurePlayList(viewModel: featuredList?.compactMap({
+        sections.append(.featurePlayList(viewModel: featuredList.compactMap({
             return FeaturedPlayListModelView(name: $0.name)
-        }) ?? []))
+        }) ))
         
         
-        sections.append(.recommandationTrack(viewModel: recommandation?.compactMap({
-            return RecommandViewModel(name: $0.name)
-        }) ?? []))
+        sections.append(.recommandationTrack(viewModel: recommandation.compactMap({
+            return RecommandViewModel(name: $0.name, artWorkURL: URL(string: $0.album.images?.first?.url ?? ""), artistName: $0.name)
+        }) ))
         
         DispatchQueue.main.async {
             self.collectionView.reloadData()
@@ -197,6 +208,40 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         print(sections.count)
         return sections.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let section = sections[indexPath.section]
+        
+        switch section {
+        case .newRelease:
+            
+            let album = newAlbumList[indexPath.item]
+            
+            let vc = NewReleasePlayListVC(album: album)
+            vc.title = album.name
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+             
+        case .featurePlayList:
+            
+            let playlist = featuredList[indexPath.item]
+            let vc = FeaturePlayListVC(playList: playlist)
+            vc.title = playlist.name
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+            
+        case .recommandationTrack:
+            
+            let recomand = recommandation[indexPath.item]
+            let vc = RecommandationPlayListVC(audioTrack: recomand)
+            vc.title = recomand.name
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -280,17 +325,17 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             // Item
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(200),
-                    heightDimension: .absolute(200)
+                    widthDimension: .absolute(150),
+                    heightDimension: .absolute(350)
                 )
             )
             
-            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 20)
             
             let verticalGroup = NSCollectionLayoutGroup.vertical(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(200),
-                    heightDimension: .absolute(400)
+                    widthDimension: .absolute(150),
+                    heightDimension: .absolute(350)
                 ),
                 subitem: item,
                 count: 2
@@ -298,12 +343,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             let horizontalGroup = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(200),
-                    heightDimension: .absolute(400)
+                    widthDimension: .absolute(150),
+                    heightDimension: .absolute(350)
                 ),
                 subitem: verticalGroup,
                 count: 1
             )
+//            horizontalGroup.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 20)
             
             // Section
             let section = NSCollectionLayoutSection(group: horizontalGroup)

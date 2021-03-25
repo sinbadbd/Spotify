@@ -38,7 +38,7 @@ struct User: Codable {
     }
 }
 
-// MARK: - Tracks
+//// MARK: - Tracks
 struct Tracks: Codable {
     let href: String
     let total: Int
