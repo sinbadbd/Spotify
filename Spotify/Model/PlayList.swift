@@ -13,7 +13,7 @@ struct PlayList: Codable {
     let externalUrls: ExternalUrls
     let href: String
     let id: String
-//    let images: [APIImage]
+    let images: [APIImage]
     let name: String
     let owner: User
     let itemPublic: String?
@@ -26,7 +26,7 @@ struct PlayList: Codable {
         case itemDescription = "description"
         case externalUrls = "external_urls"
         case href, id, name, owner
-//        case images
+        case images
         case itemPublic = "public"
         case snapshotID = "snapshot_id"
         case tracks, type, uri

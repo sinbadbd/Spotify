@@ -7,5 +7,5 @@ target 'Spotify' do
 
   # Pods for Spotify
   pod 'SDWebImage', '~> 5.0'
-
+  pod 'SnapKit', '~> 5.0.0'
 end

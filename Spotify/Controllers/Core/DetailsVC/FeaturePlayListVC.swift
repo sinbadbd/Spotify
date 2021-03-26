@@ -11,6 +11,44 @@ class FeaturePlayListVC: UIViewController {
     
     private var playList : PlayList
     
+    private var viewModel = [RecommandViewModel]()
+    private var tracks = [AudioTrack]()
+    
+    private var collectionView : UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ -> NSCollectionLayoutSection? in
+        let item = NSCollectionLayoutItem(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+        )
+        
+        item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+        
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .absolute(80)
+            ),
+            subitem: item,
+            count: 1
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.boundarySupplementaryItems = [
+            NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize:
+                    NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .fractionalWidth(1)
+                    ),
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+        ]
+        return section
+    }))
+    
     init(playList: PlayList) {
         self.playList = playList
         super.init(nibName: nil, bundle: nil)
@@ -24,11 +62,32 @@ class FeaturePlayListVC: UIViewController {
         super.viewDidLoad()
         title = playList.name
         view.backgroundColor = .brown
-        // Do any additional setup after loading the view.
-        ApiCaller.shared.getPlayListDetails(from: playList) { result in
+        
+        setupUI()
+        serverData()
+    }
+    
+    private func setupUI(){
+        view.addSubview(collectionView)
+        collectionView.backgroundColor = .white
+        collectionView.fitToSuper()
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(RecommandCollectionViewCell.self, forCellWithReuseIdentifier: RecommandCollectionViewCell.indetifer)
+        collectionView.register(PlaylistHeaderCollectionViewReuseCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistHeaderCollectionViewReuseCell.identifier )
+    }
+    
+    private func serverData(){
+        ApiCaller.shared.getPlayListDetails(from: playList) {[weak self] result in
+            print("Result=\(result)")
             DispatchQueue.main.async {
                 switch result {
                 case .success(let model):
+                    
+                    self?.viewModel = model.tracks.items.compactMap({
+                        RecommandViewModel(name: $0.track.name, artWorkURL: URL(string: $0.track.album?.images?.first?.url ?? ""), artistName: $0.track.artists.first?.name ?? "")
+                    })
+                    self?.collectionView.reloadData()
                     print(model)
                 case .failure(let error):
                     print(error)
@@ -36,16 +95,44 @@ class FeaturePlayListVC: UIViewController {
             }
         }
     }
+}
+
+extension FeaturePlayListVC: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.count
+    }
     
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecommandCollectionViewCell.indetifer, for: indexPath) as! RecommandCollectionViewCell
+        cell.configureCell(viewModel: viewModel[indexPath.row])
+        return cell
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: PlaylistHeaderCollectionViewReuseCell.identifier, for: indexPath)
+                as? PlaylistHeaderCollectionViewReuseCell,
+              kind == UICollectionView.elementKindSectionHeader else {
+            return UICollectionViewCell()
+      
+          
+        }
+        
+        let headerViewModel = PlaylistHeaderViewModel(name: playList.name, ownName: playList.itemDescription, description: playList.itemDescription, artworkURL: URL(string: playList.images.first?.url ?? ""))
+        
+        header.delegate = self
+        header.configureCell(with: headerViewModel)
+        
+        return header
+    }
+}
+
+extension FeaturePlayListVC : PlaylistHeaderCollectionReusableViewDelegate {
+    func playlistHeaderCollectionReuseableDidTapPlayAll(_ header: PlaylistHeaderCollectionViewReuseCell) {
+        print("play all...")
+    }
+    
     
 }

@@ -10,8 +10,7 @@ import Foundation
 
 struct FeaturedPlayListModelView {
     let name : String
-   // let artWorkURL : URL?
- 
-////    let numberOfTracks: Int
+    let artWorkURL : URL?
+//    let numberOfTracks: Int
 //    let artistName: String
 }

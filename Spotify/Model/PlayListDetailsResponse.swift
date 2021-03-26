@@ -7,29 +7,56 @@
 
 import Foundation
 
+/*
  
+ 
+ struct PlayListDetailsResponse : Codable {
+     let description: String
+     let id: String
+     let name: String
+     let images : [APIImage]
+     let tracks: ParentTracksList
+ }
+
+ struct ParentTracksList: Codable {
+     let href: String
+     let items: [itemsList]
+ }
+
+ struct itemsList:Codable {
+     let is_local: Bool
+     let track : listData
+ }
+
+ struct listData: Codable {
+     let album: Album
+     let artists: Artist
+ }
+ */
+
+
 // MARK: - PlayListDetailsResponse
 struct PlayListDetailsResponse: Codable {
     let collaborative: Bool
-    let playListDetailsResponseDescription: String
+    let description: String
     let externalUrls: ExternalUrls
-    let followers: Followers
+    //    let followers: Followers
     let href: String
     let id: String
-    let images: [PlayListDetailsResponseImage]
+    let images: [APIImage]
     let name: String
     let owner: User
-    let playListDetailsResponsePublic: String
+    //    let publilList: String
     let snapshotID: String
     let tracks: TracksList
     let type, uri: String
-
+    
     enum CodingKeys: String, CodingKey {
         case collaborative
-        case playListDetailsResponseDescription = "description"
+        case description = "description"
         case externalUrls = "external_urls"
-        case followers, href, id, images, name, owner
-        case playListDetailsResponsePublic = "public"
+        case  href, id, images, name, owner
+        //        case publilList = "public"
         case snapshotID = "snapshot_id"
         case tracks, type, uri
     }
@@ -52,43 +79,43 @@ struct PlayListDetailsResponseImage: Codable {
 }
 
 // MARK: - Owner
-//struct user: Codable {
-//    let externalUrls: ExternalUrls
-//    let href: String
-//    let id, type, uri: String
-//    let name: String?
-//
-//    enum CodingKeys: String, CodingKey {
-//        case externalUrls = "external_urls"
-//        case href, id, type, uri, name
-//    }
-//}
+struct OwnUser: Codable {
+    let externalUrls: ExternalUrls
+    let href: String
+    let id, type, uri: String
+    let name: String?
+
+    enum CodingKeys: String, CodingKey {
+        case externalUrls = "external_urls"
+        case href, id, type, uri, name
+    }
+}
 
 // MARK: - Tracks
 struct TracksList: Codable {
     let href: String
-    let items: [Album]
-//    let limit: Int
-//    let next: String
-//    let offset: Int
-//    let previous: JSONNull?
-//    let total: Int
+    let items: [ItemList]
+    //    let limit: Int
+    //    let next: String
+    //    let offset: Int
+    //    let previous: JSONNull?
+    //    let total: Int
 }
 
 // MARK: - Item
-//struct Item: Codable {
+struct ItemList: Codable {
 //    let addedAt: Date
-//    let addedBy: Owner
+//    let addedBy: User
 //    let isLocal: Bool
-//    let track: Track
-//
+    let track: AudioTrack
+
 //    enum CodingKeys: String, CodingKey {
 //        case addedAt = "added_at"
 //        case addedBy = "added_by"
 //        case isLocal = "is_local"
 //        case track
 //    }
-//}
+}
 
 // MARK: - Track
 //struct Track: Codable {

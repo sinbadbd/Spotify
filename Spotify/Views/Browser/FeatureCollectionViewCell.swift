@@ -15,14 +15,14 @@ class FeatureCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .blue
+//        backgroundColor = .blue
         addSubview(songImage)
         addSubview(songTitle)
         
-        
-        songImage.position(top: topAnchor, left: leadingAnchor, insets: .init(top: 0, left: 10, bottom: 0, right: 10))
+        songImage.contentMode = .scaleAspectFill
+        songImage.position(top: topAnchor, left: leadingAnchor, insets: .init(top: 0, left: 0, bottom: 0, right: 0))
         //songImage.backgroundColor = .blue
-        songImage.size(width:150, height: 80)
+        songImage.size(width:100, height: 80)
         
         songTitle.position(top: songImage.bottomAnchor, left: leadingAnchor, bottom: bottomAnchor,right:trailingAnchor ,insets: .init(top: 5, left: 10, bottom: 0, right: 20))
         //songTitle.backgroundColor = .red
@@ -35,8 +35,8 @@ class FeatureCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(viewModel: FeaturedPlayListModelView){
-//        let url = URL(string: "\(viewModel.artWorkURL ?? "")")
-//        self.songImage.sd_setImage(with: viewModel.artWorkURL, completed: nil)
+//       let url = URL(string: "\(viewModel.artWorkURL ?? "")")
+        self.songImage.sd_setImage(with: viewModel.artWorkURL, completed: nil)
 //        self.songTitle.text = viewModel.name
         
         
