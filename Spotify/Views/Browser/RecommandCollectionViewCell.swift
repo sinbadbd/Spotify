@@ -16,7 +16,7 @@ class RecommandCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .red
+        backgroundColor = .lightGray
         addSubview(songImage)
         addSubview(songTitle)
         

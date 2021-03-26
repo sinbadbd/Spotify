@@ -169,7 +169,7 @@ class HomeViewController: UIViewController {
         
         
         sections.append(.recommandationTrack(viewModel: recommandation.compactMap({
-            return RecommandViewModel(name: $0.name, artWorkURL: URL(string: $0.album.images?.first?.url ?? ""), artistName: $0.name)
+            return RecommandViewModel(name: $0.name, artWorkURL: URL(string: $0.album?.images?.first?.url ?? ""), artistName: $0.name)
         }) ))
         
         DispatchQueue.main.async {

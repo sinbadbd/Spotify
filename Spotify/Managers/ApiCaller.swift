@@ -54,7 +54,7 @@ final class ApiCaller{
     
     
     //MARK: GEt PLAYLIST ITEM
-    public func getPlayListDetails(from playList : PlayList,completion:@escaping(Result<String,Error>)->Void){
+    public func getPlayListDetails(from playList : PlayList,completion:@escaping(Result<PlayListDetailsResponse,Error>)->Void){
         createRequest(url: URL(string: Constants.baseURL + "playlists/\(playList.id )"), type: .GET) { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
@@ -63,16 +63,17 @@ final class ApiCaller{
                 }
                 do {
                     
-                  let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                 // let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
                     
-//                    let result = try JSONDecoder().decode(PlayListDetailsResponse.self, from: data)
-//                    completion(.success(result))
-                    print(result)
+                    let result = try JSONDecoder().decode(PlayListDetailsResponse.self, from: data)
+                    completion(.success(result))
+//                    print(result)
                     
                     
                 } catch {
                     completion(.failure(APIError.failedToGetData))
                     print(error.localizedDescription)
+                    debugPrint(error)
                     //                    completion(false)
                 }
             }
@@ -154,7 +155,7 @@ final class ApiCaller{
                     //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
                     
                     let result = try JSONDecoder().decode(FeaturePlaylistResponse.self, from: data)
-                    print("result:::====\(result)")
+                    //print("result:::====\(result)")
                     completion(.success(result))
                     
                 } catch {
