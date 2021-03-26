@@ -116,9 +116,23 @@ extension FeaturePlayListVC: UICollectionViewDataSource, UICollectionViewDelegat
                 as? PlaylistHeaderCollectionViewReuseCell,
               kind == UICollectionView.elementKindSectionHeader else {
             return UICollectionViewCell()
-            
+      
+          
         }
+        
+        let headerViewModel = PlaylistHeaderViewModel(name: playList.name, ownName: playList.itemDescription, description: playList.itemDescription, artworkURL: URL(string: playList.images.first?.url ?? ""))
+        
+        header.delegate = self
+        header.configureCell(with: headerViewModel)
         
         return header
     }
+}
+
+extension FeaturePlayListVC : PlaylistHeaderCollectionReusableViewDelegate {
+    func playlistHeaderCollectionReuseableDidTapPlayAll(_ header: PlaylistHeaderCollectionViewReuseCell) {
+        print("play all...")
+    }
+    
+    
 }

@@ -50,6 +50,7 @@
 		1DBA991D260C5EE500B1F264 /* AlbumDetilsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBA991C260C5EE500B1F264 /* AlbumDetilsResponse.swift */; };
 		1DBA9920260C8F1A00B1F264 /* PlayListDetailsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBA991F260C8F1A00B1F264 /* PlayListDetailsResponse.swift */; };
 		1DBA992F260E41E400B1F264 /* PlaylistHeaderCollectionViewReuseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBA992E260E41E400B1F264 /* PlaylistHeaderCollectionViewReuseCell.swift */; };
+		1DBA9932260E4C4900B1F264 /* PlaylistHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBA9931260E4C4900B1F264 /* PlaylistHeaderViewModel.swift */; };
 		1DE10C23260538F8003D3C7A /* NewReleaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE10C22260538F8003D3C7A /* NewReleaseCollectionViewCell.swift */; };
 		1DE10C2726053909003D3C7A /* FeatureCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE10C2626053909003D3C7A /* FeatureCollectionViewCell.swift */; };
 		1DE10C2A26053917003D3C7A /* RecommandCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE10C2926053917003D3C7A /* RecommandCollectionViewCell.swift */; };
@@ -102,6 +103,8 @@
 		1DBA991C260C5EE500B1F264 /* AlbumDetilsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetilsResponse.swift; sourceTree = "<group>"; };
 		1DBA991F260C8F1A00B1F264 /* PlayListDetailsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayListDetailsResponse.swift; sourceTree = "<group>"; };
 		1DBA992E260E41E400B1F264 /* PlaylistHeaderCollectionViewReuseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderCollectionViewReuseCell.swift; sourceTree = "<group>"; };
+		1DBA9931260E4C4900B1F264 /* PlaylistHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderViewModel.swift; sourceTree = SOURCE_ROOT; };
+		1DBA9934260E5A3B00B1F264 /* SpotifyRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SpotifyRelease.entitlements; sourceTree = "<group>"; };
 		1DE10C22260538F8003D3C7A /* NewReleaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewReleaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		1DE10C2626053909003D3C7A /* FeatureCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCollectionViewCell.swift; sourceTree = "<group>"; };
 		1DE10C2926053917003D3C7A /* RecommandCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommandCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -143,6 +146,7 @@
 		1D494BE925F4A66C00D79971 /* Spotify */ = {
 			isa = PBXGroup;
 			children = (
+				1DBA9934260E5A3B00B1F264 /* SpotifyRelease.entitlements */,
 				1D494C3525F4ABA000D79971 /* Supporting-File */,
 				1D494C0725F4A6FB00D79971 /* Resources */,
 				1D494C0625F4A6EC00D79971 /* Managers */,
@@ -190,6 +194,7 @@
 				1DBA977D260668D300B1F264 /* NewReleaseCellViewModel.swift */,
 				1DBA97F62609E01000B1F264 /* FeaturedPlayListModelView.swift */,
 				1DBA9800260A067400B1F264 /* RecommandViewModel.swift */,
+				1DBA9931260E4C4900B1F264 /* PlaylistHeaderViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -472,6 +477,7 @@
 				1D494D5025F9067900D79971 /* UserProfileHeaderView.swift in Sources */,
 				1D494C4125F4ABE400D79971 /* UserProfile.swift in Sources */,
 				1D494C2A25F4AB5600D79971 /* SerachResultsViewController.swift in Sources */,
+				1DBA9932260E4C4900B1F264 /* PlaylistHeaderViewModel.swift in Sources */,
 				1D494C4825F4D93D00D79971 /* UIView+Extension.swift in Sources */,
 				1D494C3E25F4ABCB00D79971 /* Artist.swift in Sources */,
 				1D494C1A25F4AB0700D79971 /* AuthViewController.swift in Sources */,
@@ -640,6 +646,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Spotify/SpotifyRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 24S2CUDM9Q;
 				INFOPLIST_FILE = Spotify/Info.plist;

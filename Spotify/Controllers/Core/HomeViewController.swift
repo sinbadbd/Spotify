@@ -164,7 +164,7 @@ class HomeViewController: UIViewController {
         }) ))
         
         sections.append(.featurePlayList(viewModel: featuredList.compactMap({
-            return FeaturedPlayListModelView(name: $0.name)
+            return FeaturedPlayListModelView(name: $0.name, artWorkURL: URL(string: $0.images.first?.url ?? ""))
         }) ))
         
         
@@ -266,7 +266,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 return UICollectionViewCell()
             }
             let viewModel = viewModels[indexPath.row]
-            cell.backgroundColor = .magenta
+//            cell.backgroundColor = .magenta
             cell.configureCell(viewModel: viewModel)
             return cell
         case .recommandationTrack(let viewModels):

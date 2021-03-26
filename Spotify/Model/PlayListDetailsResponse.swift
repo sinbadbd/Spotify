@@ -79,17 +79,17 @@ struct PlayListDetailsResponseImage: Codable {
 }
 
 // MARK: - Owner
-//struct user: Codable {
-//    let externalUrls: ExternalUrls
-//    let href: String
-//    let id, type, uri: String
-//    let name: String?
-//
-//    enum CodingKeys: String, CodingKey {
-//        case externalUrls = "external_urls"
-//        case href, id, type, uri, name
-//    }
-//}
+struct OwnUser: Codable {
+    let externalUrls: ExternalUrls
+    let href: String
+    let id, type, uri: String
+    let name: String?
+
+    enum CodingKeys: String, CodingKey {
+        case externalUrls = "external_urls"
+        case href, id, type, uri, name
+    }
+}
 
 // MARK: - Tracks
 struct TracksList: Codable {
