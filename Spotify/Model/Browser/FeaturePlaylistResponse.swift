@@ -39,7 +39,7 @@ struct User: Codable {
 }
 
 //// MARK: - Tracks
-struct Tracks: Codable {
-    let href: String
-    let total: Int
-}
+//struct Tracks: Codable {
+//    let href: String
+//    let total: Int
+//}

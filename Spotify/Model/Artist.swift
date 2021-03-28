@@ -9,13 +9,13 @@ import Foundation
 
 
 // MARK: - Artist
-struct Artist : Codable{
-   let externalUrls: ExternalUrls
-    let href: String
-    let id, name, type, uri: String
-    
-    enum CodingKeys: String, CodingKey {
-            case externalUrls = "external_urls"
-            case href, id, name, type, uri
-        }
-}
+//struct Artist : Codable{
+//   let externalUrls: ExternalUrls
+//    let href: String
+//    let id, name, type, uri: String
+//    
+//    enum CodingKeys: String, CodingKey {
+//            case externalUrls = "external_urls"
+//            case href, id, name, type, uri
+//        }
+//}

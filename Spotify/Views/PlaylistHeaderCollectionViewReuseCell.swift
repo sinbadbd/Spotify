@@ -8,6 +8,7 @@
 import UIKit
 import SDWebImage
 
+
 protocol PlaylistHeaderCollectionReusableViewDelegate: AnyObject {
     func playlistHeaderCollectionReuseableDidTapPlayAll(_ header: PlaylistHeaderCollectionViewReuseCell)
 }
@@ -38,25 +39,59 @@ class PlaylistHeaderCollectionViewReuseCell: UICollectionReusableView {
         return button
     }()
     
+    let sampleImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
 //        backgroundColor = .red
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = bounds
-        blurEffectView.alpha = 0.4
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        addSubview(blurEffectView)
+//        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurEffectView.frame = bounds
+//        blurEffectView.alpha = 0.4
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        addSubview(blurEffectView)
         setupUI()
+        
+       
     }
     
     
     func setupUI(){
-        addSubview(artisCoverImage)
-        addSubview(playLisTitle)
-        artisCoverImage.position(top:topAnchor)
+ 
+//        addSubview(artisCoverImage)
+//        addSubview(playLisTitle)
+//        artisCoverImage.position(top:topAnchor)
+//        artisCoverImage.centerXInSuper()
+//        artisCoverImage.size(width:200,height: 200)
+//        artisCoverImage.backgroundColor = .blue
+//
+//        playLisTitle.position(top: artisCoverImage.bottomAnchor, left: leadingAnchor, bottom: bottomAnchor, right: trailingAnchor, insets: .init(top: 20, left: 20, bottom: 20, right: 20))
+//        playLisTitle.numberOfLines = 0
+//        playLisTitle.sizeToFit()
+//         playLisTitle.text = "Rock legends and epic songs that cintune ti inspire generations"
+//
+//        addSubview(playButton)
+//        playButton.position( bottom: bottomAnchor, right: trailingAnchor, insets: .init(top: 0, left: 0, bottom: 10, right: 10))
+//        playButton.size(width:40, height: 40)
+//        playButton.addTarget(self, action: #selector(didTapPlayAll), for: .touchUpInside)
+ 
+    }
+    
+    func configureCell(with viewModel: PlaylistHeaderViewModel){
+        self.artisCoverImage.sd_setImage(with: viewModel.artworkURL, completed: nil)
+        
+      
+        addSubview(sampleImageView)
+        sampleImageView.fitToSuper()
+        sampleImageView.sd_setImage(with: viewModel.artworkURL, completed: nil)
+        sampleImageView.addBlurEffect()
+ 
+ 
+        sampleImageView.addSubview(artisCoverImage)
+        sampleImageView.addSubview(playLisTitle)
+        
+        artisCoverImage.position(top:sampleImageView.topAnchor)
         artisCoverImage.centerXInSuper()
         artisCoverImage.size(width:200,height: 200)
         artisCoverImage.backgroundColor = .blue
@@ -64,19 +99,12 @@ class PlaylistHeaderCollectionViewReuseCell: UICollectionReusableView {
         playLisTitle.position(top: artisCoverImage.bottomAnchor, left: leadingAnchor, bottom: bottomAnchor, right: trailingAnchor, insets: .init(top: 20, left: 20, bottom: 20, right: 20))
         playLisTitle.numberOfLines = 0
         playLisTitle.sizeToFit()
-//        playLisTitle.backgroundColor = .systemRed
-        playLisTitle.text = "Rock legends and epic songs that cintune ti inspire generations"
+         playLisTitle.text = "Rock legends and epic songs that cintune ti inspire generations"
         
         addSubview(playButton)
-        playButton.position( bottom: bottomAnchor, right: trailingAnchor, insets: .init(top: 0, left: 0, bottom: 10, right: 10))
+        playButton.position( bottom: sampleImageView.bottomAnchor, right: trailingAnchor, insets: .init(top: 0, left: 0, bottom: 10, right: 10))
         playButton.size(width:40, height: 40)
         playButton.addTarget(self, action: #selector(didTapPlayAll), for: .touchUpInside)
-//        playButton.backgroundColor = .green
-    }
-    
-    func configureCell(with viewModel: PlaylistHeaderViewModel){
-        self.artisCoverImage.sd_setImage(with: viewModel.artworkURL, completed: nil)
-//        self.songTitle.text = viewModel.name
         
         
         

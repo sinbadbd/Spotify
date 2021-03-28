@@ -172,7 +172,9 @@ class HomeViewController: UIViewController {
         
         
         sections.append(.newRelease(viewModel: newAlbumList.compactMap({
-            return NewReleaseCellViewModel(name: $0.name ?? "", artWorkURL: URL(string: $0.images?.first?.url ?? ""), numberOfTracks: $0.totalTracks ?? 0, artistName: $0.artists?.first?.name ?? "")
+//            return NewReleaseCellViewModel(name: $0.name ?? "", artWorkURL: URL(string: $0.images?.first?.url ?? ""), numberOfTracks: $0.totalTracks ?? 0, artistName: $0.artists?.first?.name ?? "")
+            
+            return NewReleaseCellViewModel(name: $0.name ?? "", artWorkURL: URL(string: $0.images?.first?.url ?? ""), numberOfTracks: $0.tracks?.total ?? 0, artistName: $0.artists?.first?.name ?? "")
         }) ))
         
         sections.append(.featurePlayList(viewModel: featuredList.compactMap({

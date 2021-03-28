@@ -65,6 +65,8 @@ class FeaturePlayListVC: UIViewController {
         
         setupUI()
         serverData()
+        
+//        navigationController.hideTransparentNavigationBar()
     }
     
     private func setupUI(){
