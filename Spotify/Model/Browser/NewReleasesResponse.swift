@@ -25,6 +25,6 @@ struct AlbumsResponse: Codable{
 
 
 // MARK: - ExternalUrls
-struct ExternalUrls: Codable{
-    let spotify: String
-}
+//struct ExternalUrls: Codable{
+//    let spotify: String
+//}

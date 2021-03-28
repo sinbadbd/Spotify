@@ -34,14 +34,14 @@ final class ApiCaller{
                     return
                 }
                 do {
+                    let encoder = JSONEncoder()
+                    encoder.outputFormatting = .prettyPrinted
                     
-                    //let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                  //  let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
                     
                     let result = try JSONDecoder().decode(AlbumDetilsResponse.self, from: data)
                     completion(.success(result))
-                    print(result)
-                    
-                    
+  
                 } catch {
                     completion(.failure(APIError.failedToGetData))
                     print(error.localizedDescription)

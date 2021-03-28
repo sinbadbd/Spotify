@@ -20,3 +20,42 @@ class Helper {
         return aMutableString
     }
 }
+extension UINavigationController {
+
+  public func presentTransparentNavigationBar() {
+    navigationBar.setBackgroundImage(UIImage(), for:UIBarMetrics.default)
+    navigationBar.isTranslucent = true
+    navigationBar.shadowImage = UIImage()
+    setNavigationBarHidden(false, animated:true)
+  }
+
+  public func hideTransparentNavigationBar() {
+    setNavigationBarHidden(true, animated:false)
+//    navigationBar.setBackgroundImage(UINavigationBar.appearance().backgroundImage(for: UIBarMetrics.default), for:UIBarMetrics.default)
+    navigationBar.isTranslucent = UINavigationBar.appearance().isTranslucent
+    navigationBar.shadowImage = UINavigationBar.appearance().shadowImage
+  }
+}
+
+extension UIImageView
+{
+    func makeBlurImage(targetImageView:UIImageView?)
+    {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = targetImageView!.bounds
+
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
+        targetImageView?.addSubview(blurEffectView)
+    }
+    
+    func addBlurEffect()
+        {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.light)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView.frame = self.bounds
+
+            blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight] // for supporting device rotation
+            self.addSubview(blurEffectView)
+        }
+}

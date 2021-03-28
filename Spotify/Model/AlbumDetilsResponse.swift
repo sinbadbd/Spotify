@@ -9,7 +9,7 @@ import Foundation
 
 struct AlbumDetilsResponse: Codable {
     let album_type: String
-    let artists: [Artist]
+    let artists: [Artists]
     let available_markets: [String]
 //    let external_ids: ExternalIDS
     let external_urls: ExternalUrls
