@@ -9,6 +9,7 @@ import UIKit
 
 class SearchViewController: UIViewController {
     
+ 
     
     private let searchController : UISearchController = {
         let vc = UISearchController(searchResultsController: SerachResultsViewController())
@@ -61,7 +62,23 @@ class SearchViewController: UIViewController {
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identify)
         view.addSubview(collectionView)
         collectionView.fitToSuper()
+        ServerData()
     }
+
+    func ServerData(){
+        ApiCaller.shared.getCategories { [weak self] result in
+            DispatchQueue.main.async {
+                print(result)
+                switch result {
+                case .success(let model):
+                    print(model)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
 }
 
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {

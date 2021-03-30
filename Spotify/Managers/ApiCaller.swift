@@ -25,6 +25,68 @@ final class ApiCaller{
     
     private init() {}
     
+    
+    
+     //MARK: GET CETEGPRYS
+    public func getCategories(completion: @escaping(Result<String, Error>)-> Void){
+        createRequest(url: URL(string: Constants.baseURL + "browse/categories"), type: .GET) { baseRequest in
+            
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let encoder = JSONEncoder()
+                    encoder.outputFormatting = .prettyPrinted
+                    
+                     let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    
+//                    let result = try JSONDecoder().decode(AlbumDetilsResponse.self, from: data)
+//                    completion(.success(result))
+                    print(result)
+  
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+                    //                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
+    
+    //MARK: GET CATEGORY PLAYLIST
+   public func getCategoriesPlayList(completion: @escaping(Result<PlayList, Error>)-> Void){
+       createRequest(url: URL(string: Constants.baseURL + "browse/categories/\("id")"), type: .GET) { baseRequest in
+           
+           let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+               guard let data = data, error == nil else {
+                   completion(.failure(APIError.failedToGetData))
+                   return
+               }
+               do {
+                   let encoder = JSONEncoder()
+                   encoder.outputFormatting = .prettyPrinted
+                   
+                    let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                   
+//                    let result = try JSONDecoder().decode(AlbumDetilsResponse.self, from: data)
+//                    completion(.success(result))
+                   print(result)
+ 
+               } catch {
+                   completion(.failure(APIError.failedToGetData))
+                   print(error.localizedDescription)
+                   //                    completion(false)
+               }
+           }
+           task.resume()
+       }
+   }
+    
+    
+    
     //MARK: GEt ALBUM ITEM
     public func getAlbumDetails(from album : Album,completion:@escaping(Result<AlbumDetilsResponse,Error>)->Void){
         createRequest(url: URL(string: Constants.baseURL + "albums/\(album.id ?? "")"), type: .GET) { baseRequest in
