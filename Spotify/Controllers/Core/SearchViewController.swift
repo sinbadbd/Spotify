@@ -10,6 +10,7 @@ import UIKit
 class SearchViewController: UIViewController {
     
     
+    
     private let searchController : UISearchController = {
         let vc = UISearchController(searchResultsController: SerachResultsViewController())
         vc.searchBar.placeholder = "Song, Artist, Album"
@@ -42,10 +43,12 @@ class SearchViewController: UIViewController {
         
     }))
     
+    var categories = [Category]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
+        
         
         setupUI()
     }
@@ -61,18 +64,52 @@ class SearchViewController: UIViewController {
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identify)
         view.addSubview(collectionView)
         collectionView.fitToSuper()
+        ServerData()
     }
+    
+    func ServerData(){
+        ApiCaller.shared.getCategories { [weak self] result in
+            DispatchQueue.main.async {
+                //                print(result)
+                switch result {
+                case .success(let model):
+                    
+                    self?.categories = model.items ?? []
+                    
+                    self?.collectionView.reloadData()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
 }
 
 extension SearchViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return categories.count
     }
- 
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identify, for: indexPath) as! SearchCollectionViewCell
-        cell.configureUI(for: "ALbum")
+        
+        let category = self.categories[indexPath.row]
+        cell.configureUI(
+            for:CategoryCollectionViewModel(
+                title: category.name ?? "",
+                artWork: URL(string: category.icons?.first?.url ?? "")
+            )
+        )
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let category = self.categories[indexPath.row]
+        let vc = CategoryListVC(category: category)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 extension SearchViewController: UISearchResultsUpdating{

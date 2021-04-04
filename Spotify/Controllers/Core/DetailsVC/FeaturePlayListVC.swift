@@ -68,6 +68,15 @@ class FeaturePlayListVC: UIViewController {
         
 //        navigationController.hideTransparentNavigationBar()
     }
+//    override func viewWillAppear(_ animated: Bool) {
+//            super.viewWillAppear(animated)
+//            navigationController?.setNavigationBarHidden(true, animated: animated)
+//        }
+//        
+//        override func viewWillDisappear(_ animated: Bool) {
+//            super.viewWillDisappear(animated)
+//            navigationController?.setNavigationBarHidden(false, animated: animated)
+//        }
     
     private func setupUI(){
         view.addSubview(collectionView)
@@ -75,6 +84,7 @@ class FeaturePlayListVC: UIViewController {
         collectionView.fitToSuper()
         collectionView.dataSource = self
         collectionView.delegate = self
+//        collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.register(RecommandCollectionViewCell.self, forCellWithReuseIdentifier: RecommandCollectionViewCell.indetifer)
         collectionView.register(PlaylistHeaderCollectionViewReuseCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: PlaylistHeaderCollectionViewReuseCell.identifier )
     }

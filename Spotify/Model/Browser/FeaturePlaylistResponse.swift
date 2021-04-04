@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - FeaturePlaylistResponse
 struct FeaturePlaylistResponse: Codable {
-    let message: String
+//    let message: String
     let playlists: PlaylistResponse
 }
 
