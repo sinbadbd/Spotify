@@ -1,46 +1,39 @@
-/* 
-Copyright (c) 2021 Swift Models Generated from JSON powered by http://www.json4swift.com
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar
-
-*/
+//
+//  Category.swift
+//  Model Generated using http://www.jsoncafe.com/ 
+//  Created on April 3, 2021
 
 import Foundation
+
 struct Categories : Codable {
-	let href : String?
-	let items : [Items]?
-	let limit : Int?
-	let next : String?
-	let offset : Int?
-	let previous : String?
-	let total : Int?
 
-	enum CodingKeys: String, CodingKey {
+        let href : String?
+        let items : [Category]?
+        let limit : Int?
+        let next : String?
+        let offset : Int?
+        let previous : Int?
+        let total : Int?
 
-		case href = "href"
-		case items = "items"
-		case limit = "limit"
-		case next = "next"
-		case offset = "offset"
-		case previous = "previous"
-		case total = "total"
-	}
-
-//	init(from decoder: Decoder) throws {
-//		let values = try decoder.container(keyedBy: CodingKeys.self)
-//		href = try values.decodeIfPresent(String.self, forKey: .href)
-//		items = try values.decodeIfPresent([Items].self, forKey: .items)
-//		limit = try values.decodeIfPresent(Int.self, forKey: .limit)
-//		next = try values.decodeIfPresent(String.self, forKey: .next)
-//		offset = try values.decodeIfPresent(Int.self, forKey: .offset)
-//		previous = try values.decodeIfPresent(String.self, forKey: .previous)
-//		total = try values.decodeIfPresent(Int.self, forKey: .total)
-//	}
+        enum CodingKeys: String, CodingKey {
+                case href = "href"
+                case items = "items"
+                case limit = "limit"
+                case next = "next"
+                case offset = "offset"
+                case previous = "previous"
+                case total = "total"
+        }
+    
+//        init(from decoder: Decoder) throws {
+//                let values = try decoder.container(keyedBy: CodingKeys.self)
+//                href = try values.decodeIfPresent(String.self, forKey: .href)
+//                items = try values.decodeIfPresent([Item].self, forKey: .items)
+//                limit = try values.decodeIfPresent(Int.self, forKey: .limit)
+//                next = try values.decodeIfPresent(String.self, forKey: .next)
+//                offset = try values.decodeIfPresent(Int.self, forKey: .offset)
+//                previous = try values.decodeIfPresent(AnyObject.self, forKey: .previous)
+//                total = try values.decodeIfPresent(Int.self, forKey: .total)
+//        }
 
 }

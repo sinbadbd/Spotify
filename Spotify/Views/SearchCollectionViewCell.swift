@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class SearchCollectionViewCell: UICollectionViewCell {
     
@@ -53,8 +54,9 @@ class SearchCollectionViewCell: UICollectionViewCell {
         titleLbl.position( left: leadingAnchor, bottom: bottomAnchor, insets: .init(top: 0, left: 10, bottom: 10, right: 0))
     }
     
-    func configureUI(for title: String){
-       titleLbl.text = title
+    func configureUI(for viewModel: CategoryCollectionViewModel){
+        titleLbl.text = viewModel.title
+        imageIcon.sd_setImage(with: viewModel.artWork, completed: nil)
         contentView.backgroundColor = colors.randomElement()
     }
     

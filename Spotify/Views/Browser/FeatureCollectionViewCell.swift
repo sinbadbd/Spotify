@@ -19,9 +19,10 @@ class FeatureCollectionViewCell: UICollectionViewCell {
         addSubview(songImage)
         addSubview(songTitle)
         
-        songImage.contentMode = .scaleAspectFill
+       
         songImage.position(top: topAnchor, left: leadingAnchor, insets: .init(top: 0, left: 0, bottom: 0, right: 0))
         //songImage.backgroundColor = .blue
+        songImage.contentMode = .scaleAspectFill
         songImage.size(width:100, height: 80)
         
         songTitle.position(top: songImage.bottomAnchor, left: leadingAnchor, bottom: bottomAnchor,right:trailingAnchor ,insets: .init(top: 5, left: 10, bottom: 0, right: 20))
