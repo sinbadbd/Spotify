@@ -25,6 +25,41 @@ final class ApiCaller{
     
     private init() {}
     
+    // SEARCH API
+    public func searchPlayList(with query: String,completion:@escaping(Result<[SearchResult],Error>) -> Void) {
+        createRequest(url: URL(string: Constants.baseURL + "search?limit=10?type=album,artist,playlist,track&q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"), type: .GET) { baseRequest in
+            let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
+                guard let data = data, error == nil else {
+                    completion(.failure(APIError.failedToGetData))
+                    return
+                }
+                do {
+                    let encoder = JSONEncoder()
+                    encoder.outputFormatting = .prettyPrinted
+                    
+//                    let result = try! JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                    
+                    let result = try JSONDecoder().decode(SearchResultResponse.self, from: data)
+                    
+                    var searchResult : [SearchResult] = []
+                     
+                    searchResult.append(contentsOf: result.albums.items.compactMap({ .albums(mode: $0)}))
+                    searchResult.append(contentsOf: result.artists.items.compactMap({ .artists(mode: $0)}))
+                    searchResult.append(contentsOf: result.tracks.items.compactMap({ .tracks(mode: $0)}))
+                    searchResult.append(contentsOf: result.playlists.items.compactMap({ .playlists(mode: $0)}))
+                    
+                    completion(.success(searchResult))
+                    print(result)
+                    
+                } catch {
+                    completion(.failure(APIError.failedToGetData))
+                    print(error.localizedDescription)
+                    //                    completion(false)
+                }
+            }
+            task.resume()
+        }
+    }
     
     
     //MARK: GET CETEGPRYS

@@ -7,9 +7,8 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
-    
-    
+class SearchViewController: UIViewController, UISearchControllerDelegate ,UISearchBarDelegate{
+ 
     
     private let searchController : UISearchController = {
         let vc = UISearchController(searchResultsController: SerachResultsViewController())
@@ -55,8 +54,9 @@ class SearchViewController: UIViewController {
     
     func setupUI(){
         
-        searchController.searchResultsUpdater = self
+//        searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -80,6 +80,32 @@ class SearchViewController: UIViewController {
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
+            }
+        }
+        
+   
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        let query : String
+        guard let resultSearchController = searchController.searchResultsController as? SerachResultsViewController,
+              let query = searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        
+        print(resultSearchController)
+        print(query)
+        
+        ApiCaller.shared.searchPlayList(with: "\(query)") { result in
+            switch result {
+            case .success(let model):
+                print(model)
+//                self?.categories = model.items ?? []
+                
+//                self?.collectionView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
@@ -112,16 +138,20 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
         navigationController?.pushViewController(vc, animated: true)
     }
 }
+ 
 extension SearchViewController: UISearchResultsUpdating{
     
     func updateSearchResults(for searchController: UISearchController) {
-        guard let resultSearchController = searchController.searchResultsController as? SerachResultsViewController,
-              let query = searchController.searchBar.text,
-              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            return
-        }
-        
-        print(resultSearchController)
-        print(query)
+//        guard let resultSearchController = searchController.searchResultsController as? SerachResultsViewController,
+//              let query = searchController.searchBar.text,
+//              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+//            return
+//        }
+//
+//        print(resultSearchController)
+//        print(query)
     }
+    
+    
 }
+ 
