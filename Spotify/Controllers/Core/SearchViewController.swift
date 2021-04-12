@@ -7,9 +7,8 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
-    
-    
+class SearchViewController: UIViewController, UISearchControllerDelegate ,UISearchBarDelegate{
+ 
     
     private let searchController : UISearchController = {
         let vc = UISearchController(searchResultsController: SerachResultsViewController())
@@ -55,8 +54,9 @@ class SearchViewController: UIViewController {
     
     func setupUI(){
         
-        searchController.searchResultsUpdater = self
+//        searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -82,6 +82,35 @@ class SearchViewController: UIViewController {
                 }
             }
         }
+        
+   
+    }
+    
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        let query : String
+        guard let resultSearchController = searchController.searchResultsController as? SerachResultsViewController,
+              let query = searchBar.text,
+              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        
+//        print(resultSearchController)
+//        print(query)
+        
+        resultSearchController.delegate = self
+        
+        ApiCaller.shared.searchPlayList(with: query) { result in
+            switch result {
+            case .success(let model):
+                print(model)
+ 
+                resultSearchController.updateResult(with:model)
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
 }
@@ -105,23 +134,37 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let category = self.categories[indexPath.row]
         let vc = CategoryListVC(category: category)
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
 }
-extension SearchViewController: UISearchResultsUpdating{
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        guard let resultSearchController = searchController.searchResultsController as? SerachResultsViewController,
-              let query = searchController.searchBar.text,
-              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-            return
+ 
+extension SearchViewController:  SearchResultViewControllerDelegate{
+    func didTapResult(_ results: SearchResult) {
+        switch results {
+        case .albums(mode:let model):
+            let vc =  NewReleasePlayListVC(album: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .artists(mode:let model):
+            print(model)
+//            cell.textLabel?.text = model.name
+        case .tracks(mode:let model):
+            print(model)
+//            cell.textLabel?.text = model.name
+        case .playlists(mode:let model):
+ 
+            let vc = FeaturePlayListVC(playList: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+ 
+            
         }
-        
-        print(resultSearchController)
-        print(query)
     }
+    
+  
+    
 }
+ 
