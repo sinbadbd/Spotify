@@ -94,16 +94,18 @@ class SearchViewController: UIViewController, UISearchControllerDelegate ,UISear
             return
         }
         
-        print(resultSearchController)
-        print(query)
+//        print(resultSearchController)
+//        print(query)
         
-        ApiCaller.shared.searchPlayList(with: "\(query)") { result in
+        resultSearchController.delegate = self
+        
+        ApiCaller.shared.searchPlayList(with: query) { result in
             switch result {
             case .success(let model):
                 print(model)
-//                self?.categories = model.items ?? []
+ 
+                resultSearchController.updateResult(with:model)
                 
-//                self?.collectionView.reloadData()
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -131,7 +133,6 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let category = self.categories[indexPath.row]
         let vc = CategoryListVC(category: category)
         vc.navigationItem.largeTitleDisplayMode = .never
@@ -139,19 +140,10 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 }
  
-extension SearchViewController: UISearchResultsUpdating{
-    
-    func updateSearchResults(for searchController: UISearchController) {
-//        guard let resultSearchController = searchController.searchResultsController as? SerachResultsViewController,
-//              let query = searchController.searchBar.text,
-//              !query.trimmingCharacters(in: .whitespaces).isEmpty else {
-//            return
-//        }
-//
-//        print(resultSearchController)
-//        print(query)
+extension SearchViewController:  SearchResultViewControllerDelegate{
+    func showResult(_ viewController: UIViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
     }
-    
     
 }
  

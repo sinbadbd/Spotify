@@ -27,7 +27,7 @@ final class ApiCaller{
     
     // SEARCH API
     public func searchPlayList(with query: String,completion:@escaping(Result<[SearchResult],Error>) -> Void) {
-        createRequest(url: URL(string: Constants.baseURL + "search?limit=10?type=album,artist,playlist,track&q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"), type: .GET) { baseRequest in
+        createRequest(url: URL(string: Constants.baseURL + "search?type=album,artist,playlist,track&q=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"), type: .GET) { baseRequest in
             let task = URLSession.shared.dataTask(with: baseRequest) { data, _, error in
                 guard let data = data, error == nil else {
                     completion(.failure(APIError.failedToGetData))
@@ -50,11 +50,14 @@ final class ApiCaller{
                     
                     completion(.success(searchResult))
                     print(result)
+                    debugPrint(result)
+                    debugPrint(searchResult)
                     
                 } catch {
                     completion(.failure(APIError.failedToGetData))
                     print(error.localizedDescription)
-                    //                    completion(false)
+//                    completion(false)
+                    debugPrint(APIError.failedToGetData)
                 }
             }
             task.resume()
