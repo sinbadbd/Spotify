@@ -86,6 +86,7 @@ class SearchViewController: UIViewController, UISearchControllerDelegate ,UISear
    
     }
     
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 //        let query : String
         guard let resultSearchController = searchController.searchResultsController as? SerachResultsViewController,
@@ -141,9 +142,29 @@ extension SearchViewController: UICollectionViewDataSource, UICollectionViewDele
 }
  
 extension SearchViewController:  SearchResultViewControllerDelegate{
-    func showResult(_ viewController: UIViewController) {
-        navigationController?.pushViewController(viewController, animated: true)
+    func didTapResult(_ results: SearchResult) {
+        switch results {
+        case .albums(mode:let model):
+            let vc =  NewReleasePlayListVC(album: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+        case .artists(mode:let model):
+            print(model)
+//            cell.textLabel?.text = model.name
+        case .tracks(mode:let model):
+            print(model)
+//            cell.textLabel?.text = model.name
+        case .playlists(mode:let model):
+ 
+            let vc = FeaturePlayListVC(playList: model)
+            vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
+ 
+            
+        }
     }
+    
+  
     
 }
  

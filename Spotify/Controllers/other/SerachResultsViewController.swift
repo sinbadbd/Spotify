@@ -14,14 +14,16 @@ struct SearchSection {
 }
 
 protocol SearchResultViewControllerDelegate: AnyObject {
-    func  showResult(_ viewController:UIViewController)
+    func  didTapResult(_ results: SearchResult)
 }
 
 class SerachResultsViewController: UIViewController {
+    weak var delegate: SearchResultViewControllerDelegate?
+    
     
     private var searchResult : [SearchSection] = []
     
-    weak var delegate: SearchResultViewControllerDelegate?
+ 
     
     private let tableView : UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
@@ -125,23 +127,9 @@ extension SerachResultsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let data = searchResult[indexPath.section].results[indexPath.item]
-        print(data)
-        switch data {
-        case .albums(mode:let model):
-            let vc =  NewReleasePlayListVC(album: model)
-            navigationController?.pushViewController(vc, animated: true)
-        case .artists(mode:let model):
-            print(model)
-//            cell.textLabel?.text = model.name
-        case .tracks(mode:let model):
-            print(model)
-//            cell.textLabel?.text = model.name
-        case .playlists(mode:let model):
-            print(model)
-//            cell.textLabel?.text = model.name
- 
-            
-        }
+        let result = searchResult[indexPath.section].results[indexPath.item]
+
+        delegate?.didTapResult(result)
+
     }
 }
